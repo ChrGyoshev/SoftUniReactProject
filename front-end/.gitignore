@@ -23,4 +23,11 @@ yarn-debug.log*
 yarn-error.log*
 
 #pyc
-.pyc
+*.pyc
+
+__pycache__/
+/__pycache__/
+__pycache__
+/venv
+Vent/
+venv
