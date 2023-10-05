@@ -19,3 +19,24 @@ body {
     background-color:hsl(8.83deg 1.49% 21.72% / 54%);
     padding-bottom:40px;
 }
+
+
+.site-slogan {
+    font-family: 'Shadows Into Light', cursive;
+    text-align: center;
+    color: white;
+    text-shadow: 9px 7px 5px black;
+    font-size: 3.6rem;
+}
+
+
+/* Footer Section */
+
+footer {
+    
+    background: rgb(182 175 174 / 73%);
+    padding: 0.5px;
+    color: white;
+    border-top: 1px solid black;
+    text-align: center;
+}
