@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 const SignUp = () => {
+  function Submitting(e) {
+    e.preventDefault();
+  }
   return (
     <>
       <div className="login-box sign-up-box">
@@ -28,7 +33,9 @@ const SignUp = () => {
             <label>Password</label>
           </div>
 
-          <button className="submit">Submit</button>
+          <button className="submit" onClick={Submitting}>
+            Submit
+          </button>
         </form>
       </div>
     </>
