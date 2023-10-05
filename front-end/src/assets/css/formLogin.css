@@ -121,7 +121,7 @@ input:-webkit-autofill:active{
 
 
 
-.fa-eye {
+.fa-eye, .fa-regular {
   position: absolute;
   color: white;
   right: 15px;
