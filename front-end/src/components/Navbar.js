@@ -18,9 +18,11 @@ const NavBar = () => {
               <a className="li">Catalogue</a>
             </li>
 
-            <li className="lia">
-              <a className="li">Sign Up</a>
-            </li>
+            <Link to="/sign-up">
+              <li className="lia">
+                <span className="li">Sign Up</span>
+              </li>
+            </Link>
 
             <li className="lia">
               <a className="li">Sign In</a>
