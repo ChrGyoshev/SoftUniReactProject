@@ -8,11 +8,11 @@ const NavBar = () => {
       <nav>
         <div className="allMenu ">
           <ul className="ul">
-            <li className="lia">
-              <Link to="/">
+            <Link to="/">
+              <li className="lia">
                 <span className="li">Home</span>
-              </Link>
-            </li>
+              </li>
+            </Link>
 
             <li className="lia">
               <a className="li">Catalogue</a>
@@ -25,10 +25,11 @@ const NavBar = () => {
             <li className="lia">
               <a className="li">Sign In</a>
             </li>
-
-            <li className="lia">
-              <a className="li">About</a>
-            </li>
+            <Link to="/about">
+              <li className="lia">
+                <span className="li">About</span>
+              </li>
+            </Link>
           </ul>
           <div className="Menu2">
             <svg
