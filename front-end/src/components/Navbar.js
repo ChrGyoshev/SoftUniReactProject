@@ -24,9 +24,12 @@ const NavBar = () => {
               </li>
             </Link>
 
-            <li className="lia">
-              <a className="li">Sign In</a>
-            </li>
+            <Link to="/sign-in">
+              <li className="lia">
+                <span className="li">Sign In</span>
+              </li>
+            </Link>
+
             <Link to="/about">
               <li className="lia">
                 <span className="li">About</span>

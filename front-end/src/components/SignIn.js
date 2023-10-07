@@ -1,25 +1,25 @@
-import { useState, useEffect, useRef } from "react";
-import ShowPassword from "../assets/js/PasswordHide";
+import React, { useRef } from "react";
+import ShowPassword from "../assets/js/PasswordHide"; // Adjust the path as needed
 
-const SignUp = () => {
+function YourComponent() {
   const inputOne = useRef(null);
   const iconOne = useRef(null);
   const inputTwo = useRef(null);
   const iconTwo = useRef(null);
-
-  function Submitting(e) {
-    e.preventDefault();
-  }
 
   const handleClick = (...clickedRef) => {
     const [input, ico] = clickedRef;
     ShowPassword(input, ico);
   };
 
+  const Submitting = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <div className="login-box sign-up-box">
-        <h2>Sign Up</h2>
+        <h2>Sign In</h2>
         <form method="post" action="">
           <div className="user-box">
             <input
@@ -43,16 +43,6 @@ const SignUp = () => {
             <label>Password</label>
           </div>
 
-          <div className="user-box">
-            <i
-              className="fa-regular fa-eye"
-              onClick={() => handleClick(iconOne, iconTwo)}
-              ref={iconTwo}
-            ></i>
-            <input type="password" className="password" ref={iconOne} />
-            <label>Password</label>
-          </div>
-
           <button className="submit" onClick={Submitting}>
             Submit
           </button>
@@ -60,6 +50,6 @@ const SignUp = () => {
       </div>
     </>
   );
-};
+}
 
-export default SignUp;
+export default YourComponent;
