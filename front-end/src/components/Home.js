@@ -1,7 +1,6 @@
 import logo from "../assets/pictures/logo.png";
 
 const Main = () => {
-  const apiKey = process.env.REACT_APP_API_KEY;
   return (
     <div className="image-container">
       <h1 className="site-slogan">
