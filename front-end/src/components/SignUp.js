@@ -17,7 +17,41 @@ const SignUp = () => {
 
   const Submitting = async (e) => {
     e.preventDefault();
-    await createUserWithEmailAndPassword(auth, email, password);
+
+    // First, create the user using Firebase authentication
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // If user creation is successful, proceed with the POST request
+      const postData = {
+        uid: userCredential.user.uid, // Access the user's UID
+        // Add other data you want to send to your Django backend
+      };
+
+      const url = "http://127.0.0.1:8000/api"; // Replace with your Django API endpoint
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (response.ok) {
+        // Handle a successful POST request here
+      } else {
+        // Handle errors or failed requests
+        console.error("POST request to Django failed");
+      }
+    } catch (error) {
+      // Handle Firebase authentication errors
+      console.error("Firebase authentication error:", error.message);
+    }
   };
 
   const handleClick = (...clickedRef) => {

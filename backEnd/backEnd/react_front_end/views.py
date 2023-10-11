@@ -1,3 +1,5 @@
+import uuid
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,9 +15,9 @@ class ProfileApiView(APIView):
         return Response(serializer.data, status= status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-
+        id = request.data.get('uid')
         data = {
-            'id': request.data.get('id'),
+            'id': id,
             'username': request.data.get('username'),
             'phone_number': request.data.get('phone_number'),
             'profile_picture': request.data.get('profile_picture'),
