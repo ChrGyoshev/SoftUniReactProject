@@ -1,8 +1,29 @@
 import { Route, Routes, Link } from "react-router-dom";
-
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { HideNavBar } from "../assets/js/HideNavbar";
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+
 const NavBar = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+   
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {  
+        setUser(user);
+        console.log(user);
+      } else {
+        console.log(user);
+      
+        setUser(null);
+      }
+    });
+
+   
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
       <nav>
@@ -13,28 +34,32 @@ const NavBar = () => {
                 <span className="li">Home</span>
               </li>
             </Link>
-
             <li className="lia">
               <a className="li">Catalogue</a>
             </li>
-
             <Link to="/sign-up">
               <li className="lia">
                 <span className="li">Sign Up</span>
               </li>
             </Link>
-
             <Link to="/sign-in">
               <li className="lia">
                 <span className="li">Sign In</span>
               </li>
             </Link>
-
             <Link to="/about">
               <li className="lia">
                 <span className="li">About</span>
               </li>
             </Link>
+
+            {user ? (
+              <Link to="/about">
+                <li className="lia">
+                  <span className="li">Logout</span>
+                </li>
+              </Link>
+            ) : null}
           </ul>
           <div className="Menu2">
             <svg

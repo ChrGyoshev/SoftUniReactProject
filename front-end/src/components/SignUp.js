@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import ShowPassword from "../assets/js/PasswordHide";
-import { auth } from "../firebase";
+import { auth, onAuthStateChanged } from "../firebase";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 const SignUp = () => {
@@ -11,14 +11,11 @@ const SignUp = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  if (auth.currentUser) {
-    console.log(auth.currentUser.uid);
-  }
 
   const Submitting = async (e) => {
     e.preventDefault();
+    const url = "http://127.0.0.1:8000/api";
 
-    // First, create the user using Firebase authentication
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -26,13 +23,9 @@ const SignUp = () => {
         password
       );
 
-      // If user creation is successful, proceed with the POST request
       const postData = {
-        uid: userCredential.user.uid, // Access the user's UID
-        // Add other data you want to send to your Django backend
+        uid: userCredential.user.uid,
       };
-
-      const url = "http://127.0.0.1:8000/api"; // Replace with your Django API endpoint
 
       const response = await fetch(url, {
         method: "POST",
