@@ -1,11 +1,15 @@
 import React, { useRef } from "react";
-import ShowPassword from "../assets/js/PasswordHide"; // Adjust the path as needed
+import ShowPassword from "../assets/js/PasswordHide";
+import { useState, useEffect } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 function YourComponent() {
   const inputOne = useRef(null);
   const iconOne = useRef(null);
-  const inputTwo = useRef(null);
-  const iconTwo = useRef(null);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleClick = (...clickedRef) => {
     const [input, ico] = clickedRef;
@@ -14,6 +18,13 @@ function YourComponent() {
 
   const Submitting = (e) => {
     e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredidential) => {
+        console.log(userCredidential.email);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -29,6 +40,7 @@ function YourComponent() {
               autoCapitalize="none"
               autoComplete="email"
               maxLength={254}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <label>Email</label>
           </div>
@@ -36,10 +48,15 @@ function YourComponent() {
           <div className="user-box">
             <i
               className="fa-regular fa-eye"
-              onClick={() => handleClick(inputOne, inputTwo)}
-              ref={inputTwo}
+              onClick={() => handleClick(inputOne, iconOne)}
+              ref={iconOne}
             ></i>
-            <input type="password" className="password" ref={inputOne} />
+            <input
+              type="password"
+              className="password"
+              ref={inputOne}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <label>Password</label>
           </div>
 

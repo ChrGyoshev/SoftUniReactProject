@@ -8,19 +8,17 @@ const NavBar = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-   
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {  
+      if (user) {
         setUser(user);
         console.log(user);
       } else {
         console.log(user);
-      
+
         setUser(null);
       }
     });
 
-   
     return () => unsubscribe();
   }, []);
 
