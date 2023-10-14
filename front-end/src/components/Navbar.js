@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const NavBar = () => {
   const [user, setUser] = useState(null);
+  const liRef = useRef();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -21,6 +22,10 @@ const NavBar = () => {
 
     return () => unsubscribe();
   }, []);
+
+  const profileHandler = () => {
+    console.log(liRef.current);
+  };
 
   return (
     <>
@@ -45,6 +50,13 @@ const NavBar = () => {
                 <span className="li">Sign In</span>
               </li>
             </Link>
+
+            <Link to="/">
+              <li className="lia" onClick={profileHandler} ref={liRef}>
+                <span className="li">Profile</span>
+              </li>
+            </Link>
+
             <Link to="/about">
               <li className="lia">
                 <span className="li">About</span>
