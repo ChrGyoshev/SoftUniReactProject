@@ -3,6 +3,7 @@ import { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { HideNavBar } from "../assets/js/HideNavbar";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { profileHandler } from "../assets/js/DropDownBtns";
 
 const NavBar = () => {
   const [user, setUser] = useState(null);
@@ -23,8 +24,8 @@ const NavBar = () => {
     return () => unsubscribe();
   }, []);
 
-  const profileHandler = () => {
-    console.log(liRef.current);
+  const handlerDropDownBtns = () => {
+    profileHandler(liRef);
   };
 
   return (
@@ -51,11 +52,15 @@ const NavBar = () => {
               </li>
             </Link>
 
-            <Link to="/">
-              <li className="lia" onClick={profileHandler} ref={liRef}>
-                <span className="li">Profile</span>
-              </li>
-            </Link>
+            {user ? (
+              <Link to="/">
+                <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
+                  <span className="li">Profile</span>
+                  <span className="profile-btns">SignIn</span>
+                  <span className="profile-btns">LogIn</span>
+                </li>
+              </Link>
+            ) : null}
 
             <Link to="/about">
               <li className="lia">
