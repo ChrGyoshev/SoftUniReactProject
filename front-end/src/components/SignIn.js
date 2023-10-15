@@ -10,6 +10,7 @@ function YourComponent() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleClick = (...clickedRef) => {
     const [input, ico] = clickedRef;
@@ -23,7 +24,8 @@ function YourComponent() {
         console.log(userCredidential.email);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.code === "auth/too-many-requests")
+          setError("too many requests");
       });
   };
 
@@ -65,6 +67,7 @@ function YourComponent() {
           </button>
         </form>
       </div>
+      {error && <div className="error">{error}</div>}
     </>
   );
 }
