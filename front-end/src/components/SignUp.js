@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import ShowPassword from "../assets/js/PasswordHide";
 import { auth, onAuthStateChanged } from "../firebase";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUp = () => {
   const inputOne = useRef(null);
@@ -52,13 +52,6 @@ const SignUp = () => {
     ShowPassword(input, ico);
   };
 
-  const LogOut = (e) => {
-    e.preventDefault();
-    signOut(auth).then(() => {
-      console.log("signed out");
-    });
-  };
-
   return (
     <>
       <div className="login-box sign-up-box">
@@ -106,8 +99,6 @@ const SignUp = () => {
           <button className="submit" onClick={Submitting}>
             Submit
           </button>
-
-          <button onClick={LogOut}>LogOut</button>
         </form>
       </div>
     </>

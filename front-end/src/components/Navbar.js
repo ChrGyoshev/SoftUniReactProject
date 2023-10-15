@@ -1,13 +1,14 @@
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link, useNavigate } from "react-router-dom";
 import { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { HideNavBar } from "../assets/js/HideNavbar";
 import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { profileHandler } from "../assets/js/DropDownBtns";
 
 const NavBar = () => {
   const [user, setUser] = useState(null);
   const liRef = useRef();
+  let navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -26,6 +27,16 @@ const NavBar = () => {
 
   const handlerDropDownBtns = () => {
     profileHandler(liRef);
+  };
+
+  const LogOut = () => {
+    signOut(auth)
+      .then((data) => {
+        navigate("sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -53,13 +64,11 @@ const NavBar = () => {
             </Link>
 
             {user ? (
-              <Link to="/">
-                <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
-                  <span className="li">Profile</span>
-                  <span className="profile-btns">SignIn</span>
-                  <span className="profile-btns">LogIn</span>
-                </li>
-              </Link>
+              <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
+                <span className="li">Profile</span>
+                <span className="profile-btns">SignIn</span>
+                <span className="profile-btns">LogIn</span>
+              </li>
             ) : null}
 
             <Link to="/about">
@@ -69,11 +78,9 @@ const NavBar = () => {
             </Link>
 
             {user ? (
-              <Link to="/about">
-                <li className="lia">
-                  <span className="li">Logout</span>
-                </li>
-              </Link>
+              <li className="lia" onClick={LogOut}>
+                <span className="li">Logout</span>
+              </li>
             ) : null}
           </ul>
           <div className="Menu2">
