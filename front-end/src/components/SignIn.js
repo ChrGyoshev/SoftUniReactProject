@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import ShowPassword from "../assets/js/PasswordHide";
 import { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 
 function YourComponent() {
   const inputOne = useRef(null);
@@ -26,6 +26,20 @@ function YourComponent() {
       .catch((error) => {
         if (error.code === "auth/too-many-requests")
           setError("too many requests");
+      });
+  };
+
+  const googleLogIn = (e) => {
+    e.preventDefault();
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // The signed-in user info.
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -65,8 +79,10 @@ function YourComponent() {
           <button className="submit" onClick={Submitting}>
             Submit
           </button>
+          <button onClick={googleLogIn}>Google Sign In</button>
         </form>
       </div>
+
       {error && <div className="error">{error}</div>}
     </>
   );
