@@ -11,39 +11,44 @@ const SignUp = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState(null);
 
   const Submitting = async (e) => {
     e.preventDefault();
     const url = "http://127.0.0.1:8000/api";
+    if (password === confirmPassword) {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+        const postData = {
+          uid: userCredential.user.uid,
+        };
 
-      const postData = {
-        uid: userCredential.user.uid,
-      };
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      });
-
-      if (response.ok) {
-        // Handle a successful POST request here
-      } else {
-        // Handle errors or failed requests
-        console.error("POST request to Django failed");
+        if (response.ok) {
+          // Handle a successful POST request here
+        } else {
+          // Handle errors or failed requests
+          console.error("POST request to Django failed");
+        }
+      } catch (error) {
+        // Handle Firebase authentication errors
+        console.error("Firebase authentication error:", error.message);
       }
-    } catch (error) {
-      // Handle Firebase authentication errors
-      console.error("Firebase authentication error:", error.message);
+    } else {
+      setErrors("Passwords are not same");
     }
   };
 
@@ -54,6 +59,7 @@ const SignUp = () => {
 
   return (
     <>
+      {errors ? <div className="errors">{errors}</div> : null}
       <div className="login-box sign-up-box">
         <h2>Sign Up</h2>
 
@@ -92,8 +98,13 @@ const SignUp = () => {
               onClick={() => handleClick(iconOne, iconTwo)}
               ref={iconTwo}
             ></i>
-            <input type="password" className="password" ref={iconOne} />
-            <label>Password</label>
+            <input
+              type="password"
+              className="password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              ref={iconOne}
+            />
+            <label>Confirm Password</label>
           </div>
 
           <button className="submit" onClick={Submitting}>

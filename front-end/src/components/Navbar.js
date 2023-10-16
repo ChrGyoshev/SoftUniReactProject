@@ -14,9 +14,9 @@ const NavBar = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        console.log(user);
+        console.log("logged in");
       } else {
-        console.log(user);
+        console.log("logged out");
 
         setUser(null);
       }
@@ -31,7 +31,7 @@ const NavBar = () => {
 
   const LogOut = () => {
     signOut(auth)
-      .then((data) => {
+      .then(() => {
         navigate("sign-in");
       })
       .catch((err) => {
@@ -68,6 +68,9 @@ const NavBar = () => {
                 <span className="li">Profile</span>
                 <span className="profile-btns">SignIn</span>
                 <span className="profile-btns">LogIn</span>
+                <span className="profile-btns" onClick={LogOut}>
+                  LogOut
+                </span>
               </li>
             ) : null}
 
@@ -76,12 +79,6 @@ const NavBar = () => {
                 <span className="li">About</span>
               </li>
             </Link>
-
-            {user ? (
-              <li className="lia" onClick={LogOut}>
-                <span className="li">Logout</span>
-              </li>
-            ) : null}
           </ul>
           <div className="Menu2">
             <svg

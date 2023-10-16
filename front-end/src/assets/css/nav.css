@@ -104,6 +104,8 @@
   background-color: rgba(16, 15, 15, 0.89);
 }
 
+
+
 .allMenu ul li a,
 span {
   font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
@@ -112,7 +114,7 @@ span {
   color: white;
   font-weight: 700;
 }
-.allMenu ul li a:hover {
+.lia, .allMenu ul li span:hover {
   cursor: pointer;
 }
 
