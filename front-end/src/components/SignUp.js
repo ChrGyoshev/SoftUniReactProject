@@ -17,6 +17,7 @@ const SignUp = () => {
   const Submitting = async (e) => {
     e.preventDefault();
     const url = "http://127.0.0.1:8000/api";
+
     if (password === confirmPassword) {
       try {
         const userCredential = await createUserWithEmailAndPassword(
@@ -38,14 +39,12 @@ const SignUp = () => {
         });
 
         if (response.ok) {
-          // Handle a successful POST request here
         } else {
-          // Handle errors or failed requests
           console.error("POST request to Django failed");
         }
       } catch (error) {
-        // Handle Firebase authentication errors
         console.error("Firebase authentication error:", error.message);
+        console.log(auth.currentUser.delete());
       }
     } else {
       setErrors("Passwords are not same");
