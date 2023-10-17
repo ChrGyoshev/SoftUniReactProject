@@ -159,3 +159,8 @@ nav {
 .fa-solid.fa-screwdriver-wrench {
   padding-left: 15px;
 }
+
+
+.google-btn>span {
+  font-size: .9rem;
+}

@@ -3,6 +3,7 @@ import ShowPassword from "../assets/js/PasswordHide";
 import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
+import GoogleButton from "react-google-button";
 
 function YourComponent() {
   const inputOne = useRef(null);
@@ -76,10 +77,22 @@ function YourComponent() {
             <label>Password</label>
           </div>
 
-          <button className="submit" onClick={Submitting}>
-            Submit
-          </button>
-          <button onClick={googleLogIn}>Google Sign In</button>
+          <div className="google-btn">
+            <button className="submit" onClick={Submitting}>
+              Submit
+            </button>
+            <GoogleButton
+              className="google-btn"
+              label="Google Sign In"
+              style={{
+                width: "200px",
+                height: "50px",
+                margin: "auto",
+                marginTop: "40px",
+              }}
+              onClick={googleLogIn}
+            ></GoogleButton>
+          </div>
         </form>
       </div>
 
