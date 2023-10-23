@@ -52,16 +52,6 @@ const NavBar = () => {
             <li className="lia">
               <a className="li">Catalogue</a>
             </li>
-            <Link to="/sign-up">
-              <li className="lia">
-                <span className="li">Sign Up</span>
-              </li>
-            </Link>
-            <Link to="/sign-in">
-              <li className="lia">
-                <span className="li">Sign In</span>
-              </li>
-            </Link>
 
             {user ? (
               <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
@@ -72,7 +62,17 @@ const NavBar = () => {
                   LogOut
                 </span>
               </li>
-            ) : null}
+            ) : (
+              <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
+                <span className="li">Sign</span>
+                <Link to={"sign-in"}>
+                  <span className="profile-btns">Sign In</span>
+                </Link>
+                <Link to="sign-up">
+                  <span className="profile-btns">Sign Up</span>
+                </Link>
+              </li>
+            )}
 
             <Link to="/about">
               <li className="lia">

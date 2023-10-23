@@ -133,7 +133,7 @@ span {
   margin-top: 0;
 }
 .profile-btns:hover {
-  background-color: rgba(255, 255, 255, 0.46);
+  background-color: rgba(0, 0, 0, 0.46);
 }
 .fa-sign-out,
 .fa-user {
