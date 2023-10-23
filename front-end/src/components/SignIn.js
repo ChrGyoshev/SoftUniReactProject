@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import ShowPassword from "../assets/js/PasswordHide";
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../firebase";
 import GoogleButton from "react-google-button";
@@ -8,7 +8,7 @@ import GoogleButton from "react-google-button";
 function YourComponent() {
   const inputOne = useRef(null);
   const iconOne = useRef(null);
-
+  let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -32,6 +32,7 @@ function YourComponent() {
 
   const googleLogIn = (e) => {
     e.preventDefault();
+
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         const user = result.user.uid;
@@ -39,15 +40,17 @@ function YourComponent() {
         const userData = {
           uid: user,
         };
-        fetch(url, {
+
+        return fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(userData),
-        }).then((resp) => {
-          console.log(resp);
         });
+      })
+      .then((result) => {
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
