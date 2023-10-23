@@ -131,6 +131,7 @@ span {
   color: rgb(255, 251, 251);
   font-weight: 700;
   margin-top: 0;
+  position: relative;
 }
 .profile-btns:hover {
   background-color: rgba(0, 0, 0, 0.46);

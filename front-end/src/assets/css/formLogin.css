@@ -137,6 +137,12 @@ input:-webkit-autofill:active {
   font-size: 20px;
 }
 
+.nav-user-ico {
+  position: absolute;
+  right: 15%;
+  top: 25%;
+}
+
 input {
   border: 3px solid grey;
   border-radius: 3px;

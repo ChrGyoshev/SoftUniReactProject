@@ -56,7 +56,7 @@ const NavBar = () => {
             {user ? (
               <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
                 <span className="li">Profile</span>
-                <span className="profile-btns">SignIn</span>
+                <span className="profile-btns">SignIn </span>
                 <span className="profile-btns">LogIn</span>
                 <span className="profile-btns" onClick={LogOut}>
                   LogOut
@@ -66,10 +66,14 @@ const NavBar = () => {
               <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
                 <span className="li">Sign</span>
                 <Link to={"sign-in"}>
-                  <span className="profile-btns">Sign In</span>
+                  <span className="profile-btns">
+                    Sign In <i class="fa-regular fa-user nav-user-ico"></i>
+                  </span>
                 </Link>
                 <Link to="sign-up">
-                  <span className="profile-btns">Sign Up</span>
+                  <span className="profile-btns">
+                    Sign Up <i class="fa-regular fa-user nav-user-ico"></i>{" "}
+                  </span>
                 </Link>
               </li>
             )}
