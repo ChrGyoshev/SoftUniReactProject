@@ -34,10 +34,20 @@ function YourComponent() {
     e.preventDefault();
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // The signed-in user info.
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
+        const user = result.user.uid;
+        const url = "http://127.0.0.1:8000/api";
+        const userData = {
+          uid: user,
+        };
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }).then((resp) => {
+          console.log(resp);
+        });
       })
       .catch((error) => {
         console.log(error);
