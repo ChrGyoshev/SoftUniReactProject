@@ -1,5 +1,6 @@
 export const profileHandler = (liRef) => {
   const button = liRef.current;
+
   button.classList.add("active");
 
   const profileBtns = Array.from(button.getElementsByClassName("profile-btns"));

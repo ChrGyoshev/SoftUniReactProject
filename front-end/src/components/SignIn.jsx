@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import ShowPassword from "../assets/js/PasswordHide";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
@@ -23,6 +23,7 @@ function YourComponent() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredidential) => {
         console.log(userCredidential.user.email);
+        navigate("/");
       })
       .catch((error) => {
         if (error.code === "auth/too-many-requests")

@@ -32,6 +32,7 @@ const NavBar = () => {
   const LogOut = () => {
     signOut(auth)
       .then(() => {
+        liRef.current.classList.remove("active");
         navigate("sign-in");
       })
       .catch((err) => {
@@ -56,8 +57,7 @@ const NavBar = () => {
             {user ? (
               <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
                 <span className="li">Profile</span>
-                <span className="profile-btns">SignIn </span>
-                <span className="profile-btns">LogIn</span>
+                <span className="profile-btns">Details </span>
                 <span className="profile-btns" onClick={LogOut}>
                   LogOut
                 </span>
