@@ -1,0 +1,113 @@
+body {
+   
+    height: 100vh;
+    width: 100%;
+    background: url('../pictures/background-picture.jpg');
+    background-position: center;
+    background-size: contain;
+    font-family: 'Helvetica Neue', Arial, Helvetica, 'Nimbus Sans L', sans-serif;
+    background-attachment: fixed;
+    overflow-x: hidden;
+    margin: 0 0 0 0;
+}
+
+.page-wrapper {
+    width: 80%;
+    min-height:100vh;
+    margin: 0 auto;
+    filter: alpha(opacity=30);
+    background-color:hsl(8.83deg 1.49% 21.72% / 54%);
+    padding-bottom:40px;
+}
+
+/* SLOGAN */
+.site-slogan {
+    font-family: 'Shadows Into Light', cursive;
+    text-align: center;
+    color: white;
+    text-shadow: 9px 7px 5px black;
+    font-size: 3.6rem;
+}
+
+
+/* LOGO */
+.image1 {
+    position: relative;
+    top: -115px;
+    opacity: 0.8;
+    margin: 0 auto;
+    width: 380px;
+    height: 404px;
+}
+.image1 img {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Footer Section */
+
+footer {
+    
+    background: rgb(182 175 174 / 73%);
+    padding: 0.5px;
+    color: white;
+    border-top: 1px solid black;
+    text-align: center;
+}
+
+
+/* ABOUT SECTION */
+.about-wrapper {
+    background: #ffffffbf;
+    padding: 12px 24px;
+    width: 95%;
+    margin: auto;
+    border-radius: 15px;}
+
+.image-about {
+    margin: 20px auto;
+    position: relative;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background-color: #4070f4;
+    padding: 3px;
+    margin-bottom: 10px;
+}
+
+.image-about img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.about-wrapper {
+    background:#ffffffbf;
+    padding: 12px 24px;
+    width: 95%;
+    margin:auto;
+    border-radius: 15px;
+
+}
+
+.about-wrapper h3 {
+
+    color: #627D98;
+}
+
+.about-wrapper h2 {
+    color: #627D98;
+}
+
+
+
+.about-wrapper p {
+    font-style: italic;
+}
+
+
+
+
+
