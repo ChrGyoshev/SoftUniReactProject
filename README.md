@@ -37,7 +37,7 @@ Follow these steps to get your project up and running locally:
 2. Front End:
 	```shell 
 	npm i 
-	npm start
+	npm run dev
 	```
 
 3. Back End
