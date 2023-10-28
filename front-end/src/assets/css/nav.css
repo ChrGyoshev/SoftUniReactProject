@@ -107,8 +107,8 @@
 
 
 
-.allMenu ul li a,
-span {
+.allMenu ul li span, .allMenu ul li a
+ {
   font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
   text-transform: uppercase;
   text-decoration: none;
