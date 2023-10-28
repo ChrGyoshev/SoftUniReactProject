@@ -2,12 +2,14 @@ import { useState, useRef } from "react";
 import ShowPassword from "../assets/js/PasswordHide";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const inputOne = useRef(null);
   const iconOne = useRef(null);
   const inputTwo = useRef(null);
   const iconTwo = useRef(null);
+  let navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +41,7 @@ const SignUp = () => {
         });
 
         if (response.ok) {
+          navigate("/");
         } else {
           console.error("POST request to Django failed");
         }
