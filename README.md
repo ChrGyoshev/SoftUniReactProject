@@ -3,7 +3,6 @@
 # BookBuzz
 
 
-
 ## Overview
 
 React Project for my SoftUni React exam
