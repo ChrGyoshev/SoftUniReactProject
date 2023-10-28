@@ -100,8 +100,9 @@
   box-shadow: 5px 1px 10px rgba(0, 0, 0, 0.3);
 }
 
-.lia > span:not(:first-child):hover {
-  background-color: rgba(16, 15, 15, 0.89);
+
+.profile-btns:hover {
+  background-color: rgb(37, 34, 34) !important;
 }
 
 

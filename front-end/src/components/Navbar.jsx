@@ -57,12 +57,14 @@ const NavBar = () => {
             {user ? (
               <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
                 <span className="li">Profile </span>
-                <span className="profile-btns">
-                  Details <i class="fa-regular fa-user nav-user-ico"></i>
-                </span>
+                <Link to={"profile-details"}>
+                  <span className="profile-btns">
+                    Details <i className="fa-regular fa-user nav-user-ico"></i>
+                  </span>
+                </Link>
                 <span className="profile-btns" onClick={LogOut}>
                   LogOut
-                  <i class="fa-solid fa-arrow-right-from-bracket nav-user-ico"></i>
+                  <i className="fa-solid fa-arrow-right-from-bracket nav-user-ico"></i>
                 </span>
               </li>
             ) : (
