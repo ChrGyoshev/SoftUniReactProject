@@ -22,7 +22,7 @@ function YourComponent() {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredidential) => {
-        console.log(userCredidential.user.email);
+        
         navigate("/");
       })
       .catch((error) => {
@@ -51,7 +51,7 @@ function YourComponent() {
         });
       })
       .then((result) => {
-        navigate("/");
+        navigate("/profile-details");
       })
       .catch((error) => {
         console.log(error);

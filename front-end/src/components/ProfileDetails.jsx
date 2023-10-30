@@ -2,12 +2,40 @@ import { auth } from "../firebase";
 import { useEffect, useState, useRef } from "react";
 const ProfileDetails = () => {
   const [user, setUser] = useState("");
+  const [profile, setProfile] = useState("");
+  let urlView = "";
   const imageInput = useRef(null);
   useEffect(() => {
-    setUser(auth.currentUser);
-    if (user !== null) {
-      console.log(user);
+    if (auth.currentUser !== null) {
+      setUser(auth.currentUser);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user && user.uid) {
+        const urlView = `http://localhost:8000/api/${user.uid}`;
+        try {
+          const response = await fetch(urlView, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(response.status);
+          }
+          const data = await response.json();
+          setProfile(data);
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchData();
   }, [user]);
 
   // const uploadImage = async () => {
@@ -38,14 +66,21 @@ const ProfileDetails = () => {
           <i className="fa-solid fa-user-pen"></i>
         </span>
         <div className="profile-image">
-          <img src={user.photoURL} alt="" />
+          {user.photoURL ? (
+            <img src={user.photoURL} alt="User Profile" />
+          ) : profile.profile_picture ? (
+            <img src={profile.profile_picture} alt="User Profile" />
+          ) : (
+            <img
+              src="https://nationwide-energy.co.uk/wp-content/uploads/2017/07/blank-avatar.jpg"
+              alt="User Profile"
+            />
+          )}
         </div>
         <div className="text-data">
           <p className="email">Email: {user.email}</p>
         </div>
       </div>
-      {/* <input type="file" accept="image/" ref={imageInput} />
-      <button onClick={uploadImage}>upload</button> */}
     </>
   );
 };
