@@ -19,3 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+export function getLoggedUser() {
+  return auth.currentUser;
+}

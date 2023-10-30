@@ -137,3 +137,7 @@
 .profile-cancel:hover {
     border: 2px solid black;
 }
+
+.profile-bye {
+    width: 10%;
+}

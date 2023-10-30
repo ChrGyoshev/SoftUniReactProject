@@ -10,7 +10,7 @@ const ProfileDetails = () => {
     if (auth.currentUser !== null) {
       setUser(auth.currentUser);
     }
-  }, [profile]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
