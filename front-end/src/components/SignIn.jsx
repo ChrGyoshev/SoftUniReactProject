@@ -49,11 +49,7 @@ function YourComponent() {
           body: JSON.stringify(userData),
         });
       })
-
-      .then((result) => {
-        navigate("/profile-details");
-      })
-
+      .then((result) => {})
       .catch((error) => {
         console.log(error);
       });
