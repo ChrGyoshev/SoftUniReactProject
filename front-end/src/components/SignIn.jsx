@@ -22,6 +22,10 @@ function YourComponent() {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredidential) => {
+<<<<<<< HEAD
+=======
+        
+>>>>>>> e9e7d272b4dee934753a0cc4e45b8c05f84fffe9
         navigate("/");
       })
       .catch((error) => {
@@ -49,7 +53,11 @@ function YourComponent() {
           body: JSON.stringify(userData),
         });
       })
-      .then((result) => {})
+
+      .then((result) => {
+        navigate("/profile-details");
+      })
+
       .catch((error) => {
         console.log(error);
       });
