@@ -35,3 +35,7 @@ class ProfileDetail(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+class ProfileDelete(generics.DestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+

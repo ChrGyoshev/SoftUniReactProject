@@ -1,5 +1,6 @@
 import { auth } from "../firebase";
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 const ProfileDetails = () => {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState("");
@@ -9,7 +10,7 @@ const ProfileDetails = () => {
     if (auth.currentUser !== null) {
       setUser(auth.currentUser);
     }
-  }, []);
+  }, [profile]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,14 +61,20 @@ const ProfileDetails = () => {
     <>
       <div className="profile-card">
         <span className="delete-profile">
-          <i className="fa-solid fa-user-xmark"></i>
+          <Link to="/profile-delete">
+            <i className="fa-solid fa-user-xmark"></i>
+          </Link>
         </span>
         <span className="edit-profile">
           <i className="fa-solid fa-user-pen"></i>
         </span>
         <div className="profile-image">
           {user.photoURL ? (
-            <img src={user.photoURL} alt="User Profile" />
+            <img
+              referrerPolicy="no-referrer"
+              src={user.photoURL}
+              alt="User Profile"
+            />
           ) : profile.profile_picture ? (
             <img src={profile.profile_picture} alt="User Profile" />
           ) : (

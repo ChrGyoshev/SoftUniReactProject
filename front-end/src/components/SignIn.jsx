@@ -35,12 +35,13 @@ function YourComponent() {
 
     signInWithPopup(auth, googleProvider)
       .then((result) => {
+        navigate("/");
         const user = result.user.uid;
         const url = "http://127.0.0.1:8000/api";
         const userData = {
           uid: user,
         };
-        navigate("/profile-details");
+
         return fetch(url, {
           method: "POST",
           headers: {
