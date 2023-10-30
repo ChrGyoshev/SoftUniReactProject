@@ -22,7 +22,6 @@ function YourComponent() {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredidential) => {
-        console.log(userCredidential.user.email);
         navigate("/");
       })
       .catch((error) => {
@@ -41,7 +40,7 @@ function YourComponent() {
         const userData = {
           uid: user,
         };
-
+        navigate("/profile-details");
         return fetch(url, {
           method: "POST",
           headers: {
@@ -50,9 +49,7 @@ function YourComponent() {
           body: JSON.stringify(userData),
         });
       })
-      .then((result) => {
-        navigate("/");
-      })
+      .then((result) => {})
       .catch((error) => {
         console.log(error);
       });
