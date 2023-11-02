@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'backEnd.react_front_end',
     'rest_framework',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

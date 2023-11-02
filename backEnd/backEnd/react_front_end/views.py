@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from backEnd.react_front_end.models import Profile
-from backEnd.react_front_end.serializers import ProfileSerializer
+from backEnd.react_front_end.serializers import ProfileSerializer, ProfileEditSerializer
 
 
 class ProfileApiView(APIView):
@@ -21,6 +21,7 @@ class ProfileApiView(APIView):
             'username': request.data.get('username'),
             'phone_number': request.data.get('phone_number'),
             'profile_picture': request.data.get('profile_picture'),
+            'gender': request.data.get('gender'),
 
         }
 
@@ -38,4 +39,9 @@ class ProfileDetail(generics.RetrieveAPIView):
 class ProfileDelete(generics.DestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+class ProfileEdit(generics.RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileEditSerializer
+
 

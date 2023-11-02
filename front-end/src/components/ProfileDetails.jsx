@@ -1,9 +1,14 @@
 import { auth } from "../firebase";
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import EditProfile from "./EditProfile";
+
 const ProfileDetails = () => {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState("");
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const ProfileCard = useRef(null);
+
   let urlView = "";
   const imageInput = useRef(null);
   useEffect(() => {
@@ -39,44 +44,53 @@ const ProfileDetails = () => {
     fetchData();
   }, [user]);
 
-  // const uploadImage = async () => {
-  //   let image = imageInput.current.files[0];
-  //   let userId = user.uid;
-  //   const url = "http://127.0.0.1:8000/api";
-  //   let formData = new FormData();
-  //   formData.append("profile_picture", image);
-  //   formData.append("uid", userId);
+  function ShowEditProfileHandler() {
+    setShowEditProfile(!showEditProfile);
+    ProfileCard.current.style.display =
+      ProfileCard.current.style.display === "none" ? "flex" : "none";
+  }
 
-  //   let newImage = await fetch(url, {
-  //     method: "POST",
-  //     body: formData,
-  //   })
-  //     .then((response) => response.json())
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
+  function handleFormSubmit(formData) {
+    console.log(formData);
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      ...formData,
+    }));
+  }
 
   return (
     <>
-      <div className="profile-card">
+      {showEditProfile && (
+        <EditProfile
+          showProfile={ShowEditProfileHandler}
+          onFormSubmit={handleFormSubmit}
+          userId={user.uid}
+        />
+      )}
+
+      <div className="profile-card" ref={ProfileCard}>
         <span className="delete-profile">
           <Link to="/profile-delete">
             <i className="fa-solid fa-user-xmark"></i>
           </Link>
         </span>
-        <span className="edit-profile">
+
+        <span className="edit-profile" onClick={ShowEditProfileHandler}>
           <i className="fa-solid fa-user-pen"></i>
         </span>
         <div className="profile-image">
-          {user.photoURL ? (
+          {profile.profile_picture ? (
             <img
               referrerPolicy="no-referrer"
-              src={user.photoURL}
+              src={`${profile.profile_picture}?t=${Date.now()}`}
               alt="User Profile"
             />
-          ) : profile.profile_picture ? (
-            <img src={profile.profile_picture} alt="User Profile" />
+          ) : user.photoURL ? (
+            <img
+              src={user.photoURL}
+              alt="User Profile"
+              referrerPolicy="no-referrer"
+            />
           ) : (
             <img
               src="https://nationwide-energy.co.uk/wp-content/uploads/2017/07/blank-avatar.jpg"
@@ -86,6 +100,15 @@ const ProfileDetails = () => {
         </div>
         <div className="text-data">
           <p className="email">Email: {user.email}</p>
+          {profile.username && (
+            <p className="username">Username: {profile.username}</p>
+          )}
+
+          {profile.phone_number && (
+            <p className="phone_number"> Phone: {profile.phone_number}</p>
+          )}
+
+          {profile.gender && <p className="gender">Gender: {profile.gender}</p>}
         </div>
       </div>
     </>

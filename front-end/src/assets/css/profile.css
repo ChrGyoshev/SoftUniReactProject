@@ -122,9 +122,9 @@
     margin-right: 10px;
 }
 
-.profile-delete:hover {
+.profile-delete:hover, .edit-profile:hover{
     cursor: pointer;
-    border: 2px solid black;
+    
 }
 
 .profile-cancel {

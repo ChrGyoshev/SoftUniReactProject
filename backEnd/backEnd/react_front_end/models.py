@@ -14,6 +14,10 @@ def phone_regex_validator(value):
 
 
 class Profile(models.Model):
+    CHOICES = [
+        ('Male',"Male"),
+        ('Female','Female'),
+    ]
 
     id = models.CharField(primary_key=True, default='',max_length=400,)
 
@@ -32,6 +36,14 @@ class Profile(models.Model):
     phone_number = models.CharField(
         validators=[phone_regex_validator,],
         max_length=17,
+        blank=True,
+        null=True,
+
+    )
+
+    gender = models.CharField(
+        max_length= 7,
+        choices=CHOICES,
         blank=True,
         null=True,
 
