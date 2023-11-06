@@ -4,8 +4,9 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from backEnd.react_front_end.models import Profile
-from backEnd.react_front_end.serializers import ProfileSerializer, ProfileEditSerializer
+from backEnd.react_front_end.models import Profile, BookReadingList
+from backEnd.react_front_end.serializers import ProfileSerializer, ProfileEditSerializer, \
+    BookReadingListCreateSerializer
 
 
 class ProfileApiView(APIView):
@@ -43,5 +44,38 @@ class ProfileDelete(generics.DestroyAPIView):
 class ProfileEdit(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileEditSerializer
+
+
+#BOOK READING LIST VIEWS
+
+
+#CREATING BOOK
+class BookCreateListView(generics.ListCreateAPIView):
+    queryset = BookReadingList.objects.all()
+    serializer_class = BookReadingListCreateSerializer
+
+    def perform_create(self, serializer):
+        user_id = self.request.data['profile']
+
+        try:
+            profile = Profile.objects.get(id=user_id)
+        except:
+            raise Exception('profile not found')
+
+        serializer.save(profile=profile)
+
+#GET BOOKS
+class BookReadingByUserList(generics.ListAPIView):
+    serializer_class = BookReadingListCreateSerializer
+
+    def get_queryset(self):
+        item_id = self.request.query_params.get('profile')
+        query = BookReadingList.objects.filter(profile__id=item_id)
+        return query
+
+
+class BookReadingDelete(generics.DestroyAPIView):
+    queryset = BookReadingList.objects.all()
+    serializer_class = BookReadingListCreateSerializer
 
 

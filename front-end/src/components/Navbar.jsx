@@ -7,8 +7,8 @@ import { profileHandler } from "../assets/js/DropDownBtns";
 
 const NavBar = () => {
   const [user, setUser] = useState(null);
-  const liRef = useRef();
   let navigate = useNavigate();
+  let liRef = useRef("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -25,13 +25,16 @@ const NavBar = () => {
     return () => unsubscribe();
   }, []);
 
-  const handlerDropDownBtns = () => {
-    profileHandler(liRef);
+  const handlerDropDownBtns = (e) => {
+    let element = e.currentTarget;
+
+    profileHandler(element);
   };
 
   const LogOut = () => {
     signOut(auth)
       .then(() => {
+        console.log(liRef);
         liRef.current.classList.remove("active");
         navigate("sign-in");
       })
@@ -50,8 +53,14 @@ const NavBar = () => {
                 <span className="li">Home</span>
               </li>
             </Link>
-            <li className="lia">
-              <a className="li">Catalogue</a>
+            <li className="lia" onClick={handlerDropDownBtns}>
+              <span className="li">Catalogue</span>
+              <Link to={"catalogue/book-list"}>
+                <span className="profile-btns">Reading List</span>
+              </Link>
+              <Link>
+                <span className="profile-btns">Book Store</span>
+              </Link>
             </li>
 
             {user ? (
@@ -68,7 +77,7 @@ const NavBar = () => {
                 </span>
               </li>
             ) : (
-              <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
+              <li className="lia" onClick={handlerDropDownBtns}>
                 <span className="li">Sign</span>
                 <Link to={"sign-in"}>
                   <span className="profile-btns">

@@ -49,3 +49,35 @@ class Profile(models.Model):
 
     )
 
+class BookReadingList(models.Model):
+    STATUS = [
+        ('In Progress', "In Progress"),
+        ('Currently Reading', 'Currently Reading'),
+        ("Finished", 'Finished'),
+    ]
+
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    title = models.CharField(
+        max_length=60,
+    )
+    author = models.CharField(
+        max_length=60,
+    )
+    cover = models.ImageField(
+        upload_to='book-cover',
+        blank= True,
+        null= True,
+    )
+
+    pages = models.PositiveIntegerField(
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=30,
+        choices=STATUS,
+        blank=True,
+        null=True,
+    )

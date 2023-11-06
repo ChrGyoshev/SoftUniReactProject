@@ -5,6 +5,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import DeleteProfile from "./components/DeleteProfile";
 import ProfileDetails from "./components/ProfileDetails";
+import BookList from "./components/BookList";
 import Test from "./components/test";
 import { Route, Routes } from "react-router-dom";
 
@@ -19,7 +20,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/profile-details" element={<ProfileDetails />} />
         <Route path="/profile-delete" element={<DeleteProfile />} />
-
+        <Route path="/catalogue/book-list" element={<BookList />} />
         <Route path="/test" element={<Test />} />
       </Routes>
     </>

@@ -1,5 +1,5 @@
 export const profileHandler = (liRef) => {
-  const button = liRef.current;
+  const button = liRef;
 
   button.classList.add("active");
 
