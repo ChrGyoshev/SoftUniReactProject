@@ -6,6 +6,8 @@ const BookList = () => {
   const [user, setUser] = useState("");
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [selectedValues, setSelectedValues] = useState({});
+
   const tableElement = useRef();
 
   useEffect(() => {
@@ -35,6 +37,15 @@ const BookList = () => {
       });
   }, [user]);
 
+  useEffect(() => {
+    // Initialize selectedValues based on book status from the book state
+    const initialSelectedValues = {};
+    books.forEach((book) => {
+      initialSelectedValues[book.id] = book.status || "In Progress";
+    });
+    setSelectedValues(initialSelectedValues);
+  }, [books]);
+
   function addBookHandler() {
     setShowForm(!showForm);
     tableElement.current.style.display =
@@ -61,8 +72,51 @@ const BookList = () => {
       .catch((error) => console.error(error));
   }
 
+  async function patchBookStatus(bookId, newStatus) {
+    fetch(`http://localhost:8000/api/book-reading-list/edit/${bookId}/`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: newStatus }),
+    })
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error));
+  }
+
   function UpdateBooks(newBooks) {
     setBooks((oldData) => [...oldData, newBooks]);
+  }
+
+  function selectChangeHandler(e, bookId) {
+    const newStatus = e.target.value;
+
+    setSelectedValues({
+      ...selectedValues,
+      [bookId]: e.target.value,
+    });
+
+    // Dynamically update the className based on the new status
+    const updatedBooks = books.map((book) => {
+      if (book.id === bookId) {
+        return {
+          ...book,
+          status: newStatus,
+        };
+      }
+      return book;
+    });
+
+    setBooks(updatedBooks);
+
+    patchBookStatus(bookId, newStatus);
+  }
+
+  function getBookClass(book) {
+    if (book.status) {
+      return book.status.toLowerCase().replace(/ /g, "-");
+    }
+    return "";
   }
 
   return (
@@ -83,20 +137,33 @@ const BookList = () => {
               <th>Author</th>
               <th>Pages</th>
               <th>Remove Book</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {books.map((book) => (
-              <tr key={book.id}>
+              <tr key={book.id} className={getBookClass(book)}>
                 <td>{book.title}</td>
                 <td>{book.author}</td>
                 <td>{book.pages}</td>
                 <td>
                   <i
-                    class="fa-solid fa-trash-can"
+                    className="fa-solid fa-trash-can"
                     onClick={deleteBookHandler}
                     profile={book.id}
                   ></i>
+                </td>
+                <td>
+                  <select
+                    name="status"
+                    id={book.id}
+                    value={selectedValues[book.id] || "In Progress"}
+                    onChange={(e) => selectChangeHandler(e, book.id)}
+                  >
+                    <option value="In Progress">Currently reading</option>
+                    <option value="Want to read">Wish to read</option>
+                    <option value="Finished">Completed</option>
+                  </select>
                 </td>
               </tr>
             ))}

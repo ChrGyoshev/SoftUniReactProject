@@ -79,3 +79,9 @@ class BookReadingDelete(generics.DestroyAPIView):
     serializer_class = BookReadingListCreateSerializer
 
 
+
+class BookEdit(generics.RetrieveUpdateAPIView):
+    queryset = BookReadingList.objects.all()
+    serializer_class = BookReadingListCreateSerializer
+
+

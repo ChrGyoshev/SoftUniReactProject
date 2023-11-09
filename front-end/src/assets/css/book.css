@@ -41,9 +41,9 @@
     border-bottom: 1px solid #dddddd;
 }
 
-.styled-table tbody tr:nth-of-type(even) {
+/* .styled-table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
-}
+} */
 
 .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
@@ -91,3 +91,16 @@
     color: rgb(143, 4, 4);
 }
 
+
+/* TABLE ELEMENTS STATUS CHANGING */
+.finished {
+    background-color: #ff000054 ;
+}
+
+.in-progress {
+ background-color: #f1bd0066 !important;
+}
+
+.want-to-read {
+    background-color: #01fb1478;
+}

@@ -98,7 +98,7 @@ const EditProfile = ({ showProfile, onFormSubmit, userId }) => {
               type="file"
               onChange={handleFileChange}
             />
-            <label for="gender">Gender:</label>
+            <label htmlFor="gender">Gender:</label>
             <select id="gender" name="gender" onChange={handleInputChange}>
               <option value="">----</option>
               <option value="Male">Male</option>

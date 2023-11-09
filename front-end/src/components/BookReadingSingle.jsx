@@ -29,7 +29,7 @@ const BookReadingSingle = ({ showForm, user, updateBooks }) => {
       .then((response) => response.json())
       .then((data) => {
         updateBooks(data);
-        showForm()
+        showForm();
       })
       .catch((error) => console.error(error));
   }
@@ -64,6 +64,7 @@ const BookReadingSingle = ({ showForm, user, updateBooks }) => {
               onChange={inputChangeHandler}
               value={formData.author}
             />
+
             <div className="add-book-btns">
               <button
                 type="submit"

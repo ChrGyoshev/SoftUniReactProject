@@ -52,7 +52,7 @@ class Profile(models.Model):
 class BookReadingList(models.Model):
     STATUS = [
         ('In Progress', "In Progress"),
-        ('Currently Reading', 'Currently Reading'),
+        ('Want to read', 'Want to read'),
         ("Finished", 'Finished'),
     ]
 
