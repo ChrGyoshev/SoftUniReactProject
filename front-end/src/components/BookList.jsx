@@ -116,7 +116,7 @@ const BookList = () => {
     if (book.status) {
       return book.status.toLowerCase().replace(/ /g, "-");
     }
-    return "";
+    return "in-progress";
   }
 
   return (
