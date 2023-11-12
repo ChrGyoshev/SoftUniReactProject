@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import BookReadingSingle from "./BookReadingSingle";
+import BookReadingSingle from "./BookReadingCatalogue/BookReadingSingle";
+import EditSingleBook from "./BookReadingCatalogue/BookSingleEdit";
 
 const BookList = () => {
   const [user, setUser] = useState("");
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editBook, setEditBook] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
 
   const tableElement = useRef();
+  const bookBtns = useRef();
 
   useEffect(() => {
     const auth = getAuth();
@@ -38,7 +41,6 @@ const BookList = () => {
   }, [user]);
 
   useEffect(() => {
-    // Initialize selectedValues based on book status from the book state
     const initialSelectedValues = {};
     books.forEach((book) => {
       initialSelectedValues[book.id] = book.status || "In Progress";
@@ -46,16 +48,29 @@ const BookList = () => {
     setSelectedValues(initialSelectedValues);
   }, [books]);
 
+  // Adding Book Modular
   function addBookHandler() {
     setShowForm(!showForm);
     tableElement.current.style.display =
       tableElement.current.style.display === "none" ? "block" : "none";
+
+    bookBtns.current.style.display =
+      bookBtns.current.style.display === "none" ? "flex" : "none";
   }
 
+  // Edit book Modular
+  function editBookHandler() {
+    setEditBook(!editBook);
+    tableElement.current.style.display =
+      tableElement.current.style.display === "none" ? "block" : "none";
+
+    bookBtns.current.style.display =
+      bookBtns.current.style.display === "none" ? "flex" : "none";
+  }
+
+  // Makes request to delete book
   function deleteBookHandler(e) {
     const bookId = Number(e.currentTarget.getAttribute("profile"));
-    console.log(typeof bookId);
-    console.log(typeof books[0].id);
     const deleteURL = `http://localhost:8000/api/books-reading-list/delete/${bookId}/`;
 
     fetch(deleteURL, {
@@ -71,6 +86,8 @@ const BookList = () => {
       })
       .catch((error) => console.error(error));
   }
+
+  // Makes request to edit selected book status
 
   async function patchBookStatus(bookId, newStatus) {
     fetch(`http://localhost:8000/api/book-reading-list/edit/${bookId}/`, {
@@ -112,6 +129,7 @@ const BookList = () => {
     patchBookStatus(bookId, newStatus);
   }
 
+  // getting css class
   function getBookClass(book) {
     if (book.status) {
       return book.status.toLowerCase().replace(/ /g, "-");
@@ -128,47 +146,58 @@ const BookList = () => {
           updateBooks={UpdateBooks}
         />
       )}
-      <div className="book-data" ref={tableElement}>
-        <button onClick={addBookHandler}>Add Book</button>
-        <table className="styled-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Pages</th>
-              <th>Remove Book</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {books.map((book) => (
-              <tr key={book.id} className={getBookClass(book)}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.pages}</td>
-                <td>
-                  <i
-                    className="fa-solid fa-trash-can"
-                    onClick={deleteBookHandler}
-                    profile={book.id}
-                  ></i>
-                </td>
-                <td>
-                  <select
-                    name="status"
-                    id={book.id}
-                    value={selectedValues[book.id] || "In Progress"}
-                    onChange={(e) => selectChangeHandler(e, book.id)}
-                  >
-                    <option value="In Progress">Currently reading</option>
-                    <option value="Want to read">Wish to read</option>
-                    <option value="Finished">Completed</option>
-                  </select>
-                </td>
+
+      {editBook && <EditSingleBook showForm={editBookHandler} />}
+      <div className="book-btns" ref={bookBtns}>
+        <button className="button-10" onClick={addBookHandler}>
+          Add Book
+        </button>
+        <button className="button-10" onClick={editBookHandler}>
+          Edit Book
+        </button>
+      </div>
+      <div className="book-catalogue">
+        <div className="book-data" ref={tableElement}>
+          <table className="styled-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Pages</th>
+                <th>Remove Book</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {books.map((book) => (
+                <tr key={book.id} className={getBookClass(book)}>
+                  <td>{book.title}</td>
+                  <td>{book.author}</td>
+                  <td>{book.pages}</td>
+                  <td>
+                    <i
+                      className="fa-solid fa-trash-can"
+                      onClick={deleteBookHandler}
+                      profile={book.id}
+                    ></i>
+                  </td>
+                  <td>
+                    <select
+                      name="status"
+                      id={book.id}
+                      value={selectedValues[book.id] || "In Progress"}
+                      onChange={(e) => selectChangeHandler(e, book.id)}
+                    >
+                      <option value="In Progress">Currently reading</option>
+                      <option value="Want to read">Wish to read</option>
+                      <option value="Finished">Completed</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

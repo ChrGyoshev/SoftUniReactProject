@@ -36,9 +36,7 @@ const BookReadingSingle = ({ showForm, user, updateBooks }) => {
 
   return (
     <>
-      <div className="overlay" onClick={showForm}>
-        {" "}
-      </div>
+      <div className="overlay" onClick={showForm}></div>
       <div className="modular">
         <section className="form-edit-profile">
           <button className="button-close-edit-profile" onClick={showForm}>
