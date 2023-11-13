@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import BookReadingSingle from "./BookReadingCatalogue/BookReadingSingle";
-import EditSingleBook from "./BookReadingCatalogue/BookSingleEdit";
+import BookReadingSingle from "./BookReadingAdd";
+import EditSingleBook from "./BookReadingEdit";
 
 const BookList = () => {
   const [user, setUser] = useState("");
@@ -152,9 +152,6 @@ const BookList = () => {
         <button className="button-10" onClick={addBookHandler}>
           Add Book
         </button>
-        <button className="button-10" onClick={editBookHandler}>
-          Edit Book
-        </button>
       </div>
       <div className="book-catalogue">
         <div className="book-data" ref={tableElement}>
@@ -179,6 +176,11 @@ const BookList = () => {
                       className="fa-solid fa-trash-can"
                       onClick={deleteBookHandler}
                       profile={book.id}
+                    ></i>
+                    <i
+                      className="fa-solid fa-pen-to-square"
+                      profile={book.id}
+                      onClick={editBookHandler}
                     ></i>
                   </td>
                   <td>

@@ -5,7 +5,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import DeleteProfile from "./components/DeleteProfile";
 import ProfileDetails from "./components/ProfileDetails";
-import BookList from "./components/BookList";
+import BookList from "./components/BookReadingCatalogue/BookReadingList";
 import Test from "./components/test";
 import { Route, Routes } from "react-router-dom";
 

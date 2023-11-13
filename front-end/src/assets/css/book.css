@@ -80,13 +80,13 @@
 }
 
 /* TRASH ICON */
-.fa-solid.fa-trash-can{
+.fa-solid.fa-trash-can, .fa-solid.fa-pen-to-square{
     font-size: 18px;
-    padding-left: 2em;
+    padding-left: 1em;
 
 }
 
-.fa-solid.fa-trash-can:hover{
+.fa-solid.fa-trash-can:hover, .fa-solid.fa-pen-to-square:hover{
     cursor: pointer;
     color: rgb(143, 4, 4);
 }
