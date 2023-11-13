@@ -12,17 +12,22 @@ import { Route, Routes } from "react-router-dom";
 function App() {
   return (
     <>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/profile-details" element={<ProfileDetails />} />
-        <Route path="/profile-delete" element={<DeleteProfile />} />
-        <Route path="/catalogue/book-list" element={<BookList />} />
-        <Route path="/test" element={<Test />} />
-      </Routes>
+      <section id="root" class="page-wrapper">
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/profile-details" element={<ProfileDetails />} />
+          <Route path="/profile-delete" element={<DeleteProfile />} />
+          <Route path="/catalogue/book-list" element={<BookList />} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+      </section>
+      <footer>
+        <p>&copy; 2023 Christiyan Gyoshev - All rights Reserved</p>
+      </footer>
     </>
   );
 }
