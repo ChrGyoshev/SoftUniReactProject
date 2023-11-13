@@ -138,8 +138,105 @@ const BookList = () => {
     return "in-progress";
   }
 
+  // Updating books when patch request is made
+  function updateBooksOnPatch(data) {
+    setBooks((oldData) => {
+      const index = oldData.findIndex((book) => book.id === data.id);
+      const updatedBooks = [...oldData];
+      updatedBooks[index] = data;
+      return updatedBooks;
+    });
+  }
+
   return (
     <>
+      {books.length === 0 ? (
+        <div>
+          <h1 className="no-books">You have no books in your reading list</h1>
+          <button className="button-10 no-books" onClick={addBookHandler}>
+            Add Book
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="book-btns" ref={bookBtns}>
+            <button className="button-10" onClick={addBookHandler}>
+              Add Book
+            </button>
+          </div>
+          <div className="book-catalogue">
+            <div className="book-data" ref={tableElement}>
+              <table className="styled-table">
+                <thead>
+                  <tr>
+                    <th>cover</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Pages</th>
+                    <th>Remove Book</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {books.map((book) => (
+                    <tr key={book.id} className={getBookClass(book)}>
+                      <td>
+                        {!book.cover ? (
+                          <img
+                            src="/bookDefault.png"
+                            alt="asd"
+                            className="book-reading-list-image"
+                          />
+                        ) : (
+                          <img
+                            src={book.cover}
+                            alt="asd"
+                            className="book-reading-list-image"
+                          />
+                        )}
+                      </td>
+                      <td>{book.title}</td>
+                      <td>{book.author}</td>
+                      <td>{book.pages}</td>
+                      <td>
+                        <i
+                          className="fa-solid fa-trash-can"
+                          onClick={deleteBookHandler}
+                          profile={book.id}
+                        ></i>
+                        <i
+                          className="fa-solid fa-pen-to-square"
+                          bookId={book.id}
+                          onClick={() => {
+                            editBookHandler();
+                            setSelectedBookId(book.id);
+                          }}
+                        ></i>
+                      </td>
+                      <td>
+                        <div class="custom-select">
+                          <select
+                            name="status"
+                            id={book.id}
+                            value={selectedValues[book.id] || "In Progress"}
+                            onChange={(e) => selectChangeHandler(e, book.id)}
+                          >
+                            <option value="In Progress">
+                              Currently reading
+                            </option>
+                            <option value="Want to read">Wish to read</option>
+                            <option value="Finished">Completed</option>
+                          </select>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
       {showForm && (
         <BookReadingSingle
           showForm={addBookHandler}
@@ -149,64 +246,13 @@ const BookList = () => {
       )}
 
       {editBook && (
-        <EditSingleBook showForm={editBookHandler} bookId={selectedBookId} />
+        <EditSingleBook
+          showForm={editBookHandler}
+          bookId={selectedBookId}
+          updateBooksOnPatch={updateBooksOnPatch}
+          books={books}
+        />
       )}
-      <div className="book-btns" ref={bookBtns}>
-        <button className="button-10" onClick={addBookHandler}>
-          Add Book
-        </button>
-      </div>
-      <div className="book-catalogue">
-        <div className="book-data" ref={tableElement}>
-          <table className="styled-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Pages</th>
-                <th>Remove Book</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {books.map((book) => (
-                <tr key={book.id} className={getBookClass(book)}>
-                  <td>{book.title}</td>
-                  <td>{book.author}</td>
-                  <td>{book.pages}</td>
-                  <td>
-                    <i
-                      className="fa-solid fa-trash-can"
-                      onClick={deleteBookHandler}
-                      profile={book.id}
-                    ></i>
-                    <i
-                      className="fa-solid fa-pen-to-square"
-                      bookId={book.id}
-                      onClick={() => {
-                        editBookHandler();
-                        setSelectedBookId(book.id);
-                      }}
-                    ></i>
-                  </td>
-                  <td>
-                    <select
-                      name="status"
-                      id={book.id}
-                      value={selectedValues[book.id] || "In Progress"}
-                      onChange={(e) => selectChangeHandler(e, book.id)}
-                    >
-                      <option value="In Progress">Currently reading</option>
-                      <option value="Want to read">Wish to read</option>
-                      <option value="Finished">Completed</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
     </>
   );
 };

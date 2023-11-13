@@ -64,8 +64,8 @@ class BookReadingList(models.Model):
     author = models.CharField(
         max_length=60,
     )
-    cover = models.ImageField(
-        upload_to='book-cover',
+    cover = models.CharField(
+        max_length=2500,
         blank= True,
         null= True,
     )

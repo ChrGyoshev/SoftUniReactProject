@@ -39,6 +39,7 @@
 
 .styled-table tbody tr {
     border-bottom: 1px solid #dddddd;
+    font-size: 1.1em;
 }
 
 /* .styled-table tbody tr:nth-of-type(even) {
@@ -46,13 +47,56 @@
 } */
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+    border-bottom: 2px solid #007bff;
 }
 
-.styled-table tbody tr.active-row {
-    font-weight: bold;
-    color: #009879;
-}
+/* SELECT STYLING */
+.custom-select {
+    width: 55%;
+    position: relative;
+  }
+  
+  select {
+    appearance: none;
+    /*  safari  */
+    -webkit-appearance: none;
+    /*  other styles for aesthetics */
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 0.4em 6em 0.4em 0.5em;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+  }
+  
+  .custom-select::before,
+  .custom-select::after {
+    --size: 0.3rem;
+    content: "";
+    position: absolute;
+    right: 1rem;
+    pointer-events: none;
+  }
+  
+  .custom-select::before {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-bottom: var(--size) solid black;
+    top: 40%;
+  }
+  
+  .custom-select::after {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-top: var(--size) solid black;
+    top: 55%;
+  }
+  
+  
+ 
+
 
 
 .submit-book {
@@ -81,7 +125,7 @@
 
 /* TRASH ICON */
 .fa-solid.fa-trash-can, .fa-solid.fa-pen-to-square{
-    font-size: 18px;
+    font-size: 1.5em;
     padding-left: 1em;
 
 }
@@ -146,3 +190,19 @@
 }
 
 
+.book-reading-list-image{
+   width: 4em;
+}
+
+
+/* reading list if not books */
+.no-books{
+    text-align: center;
+    color: #ffffffd3;
+    font-size: 2.5em;
+}
+
+.button-10.no-books {
+    margin: 0 auto;
+    font-size: 1.5em;
+}
