@@ -9,6 +9,7 @@ const BookList = () => {
   const [showForm, setShowForm] = useState(false);
   const [editBook, setEditBook] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
+  const [selectedBookId, setSelectedBookId] = useState();
 
   const tableElement = useRef();
   const bookBtns = useRef();
@@ -147,7 +148,9 @@ const BookList = () => {
         />
       )}
 
-      {editBook && <EditSingleBook showForm={editBookHandler} />}
+      {editBook && (
+        <EditSingleBook showForm={editBookHandler} bookId={selectedBookId} />
+      )}
       <div className="book-btns" ref={bookBtns}>
         <button className="button-10" onClick={addBookHandler}>
           Add Book
@@ -179,8 +182,11 @@ const BookList = () => {
                     ></i>
                     <i
                       className="fa-solid fa-pen-to-square"
-                      profile={book.id}
-                      onClick={editBookHandler}
+                      bookId={book.id}
+                      onClick={() => {
+                        editBookHandler();
+                        setSelectedBookId(book.id);
+                      }}
                     ></i>
                   </td>
                   <td>
