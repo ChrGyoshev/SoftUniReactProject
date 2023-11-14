@@ -1,5 +1,4 @@
 import logo from "../assets/pictures/logo.png";
-import { useEffect } from "react";
 
 const App = () => {
   return (

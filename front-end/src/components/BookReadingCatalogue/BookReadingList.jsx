@@ -51,12 +51,16 @@ const BookList = () => {
 
   // Adding Book Modular
   function addBookHandler() {
-    setShowForm(!showForm);
-    tableElement.current.style.display =
-      tableElement.current.style.display === "none" ? "block" : "none";
+    if (books.length > 0) {
+      setShowForm(!showForm);
+      tableElement.current.style.display =
+        tableElement.current.style.display === "none" ? "block" : "none";
 
-    bookBtns.current.style.display =
-      bookBtns.current.style.display === "none" ? "flex" : "none";
+      bookBtns.current.style.display =
+        bookBtns.current.style.display === "none" ? "flex" : "none";
+    } else {
+      setShowForm(!showForm);
+    }
   }
 
   // Edit book Modular
@@ -181,7 +185,8 @@ const BookList = () => {
                   {books.map((book) => (
                     <tr key={book.id} className={getBookClass(book)}>
                       <td>
-                        {!book.cover ? (
+                        {book.cover === "" ||
+                        book.cover === null ? (
                           <img
                             src="/bookDefault.png"
                             alt="asd"
@@ -206,7 +211,7 @@ const BookList = () => {
                         ></i>
                         <i
                           className="fa-solid fa-pen-to-square"
-                          bookId={book.id}
+                          bookid={book.id}
                           onClick={() => {
                             editBookHandler();
                             setSelectedBookId(book.id);
@@ -214,7 +219,7 @@ const BookList = () => {
                         ></i>
                       </td>
                       <td>
-                        <div class="custom-select">
+                        <div className="custom-select">
                           <select
                             name="status"
                             id={book.id}
