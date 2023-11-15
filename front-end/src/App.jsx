@@ -13,7 +13,7 @@ import { Route, Routes } from "react-router-dom";
 function App() {
   return (
     <>
-      <section id="root" class="page-wrapper">
+      <section className="page-wrapper">
         <NavBar />
         <Routes>
           <Route path="/" element={<Main />} />

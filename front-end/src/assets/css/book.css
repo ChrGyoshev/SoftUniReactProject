@@ -53,13 +53,13 @@
 /* SELECT STYLING */
 .custom-select {
     width: 55%;
-    position: relative;
+    
   }
   
   select {
-    appearance: none;
+    
     /*  safari  */
-    -webkit-appearance: none;
+    
     /*  other styles for aesthetics */
     width: 100%;
     font-size: 1.15rem;
@@ -69,6 +69,7 @@
     border-radius: 0.25rem;
     color: #000;
     cursor: pointer;
+    display: block;
   }
   
   .custom-select::before,
@@ -206,3 +207,4 @@
     margin: 0 auto;
     font-size: 1.5em;
 }
+
