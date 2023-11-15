@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp";
 import DeleteProfile from "./components/DeleteProfile";
 import ProfileDetails from "./components/ProfileDetails";
 import BookList from "./components/BookReadingCatalogue/BookReadingList";
+import BookStoreCatalogue from "./components/BookStore/BookStoreCatalogue";
 import Test from "./components/test";
 import { Route, Routes } from "react-router-dom";
 
@@ -22,6 +23,10 @@ function App() {
           <Route path="/profile-details" element={<ProfileDetails />} />
           <Route path="/profile-delete" element={<DeleteProfile />} />
           <Route path="/catalogue/book-list" element={<BookList />} />
+          <Route
+            path="/catalogue/book-store"
+            element={<BookStoreCatalogue />}
+          />
           <Route path="/test" element={<Test />} />
         </Routes>
       </section>

@@ -51,12 +51,16 @@ const BookList = () => {
 
   // Adding Book Modular
   function addBookHandler() {
-    setShowForm(!showForm);
-    tableElement.current.style.display =
-      tableElement.current.style.display === "none" ? "block" : "none";
+    if (books.length > 0) {
+      setShowForm(!showForm);
+      tableElement.current.style.display =
+        tableElement.current.style.display === "none" ? "block" : "none";
 
-    bookBtns.current.style.display =
-      bookBtns.current.style.display === "none" ? "flex" : "none";
+      bookBtns.current.style.display =
+        bookBtns.current.style.display === "none" ? "flex" : "none";
+    } else {
+      setShowForm(!showForm);
+    }
   }
 
   // Edit book Modular

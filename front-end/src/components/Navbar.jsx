@@ -61,7 +61,7 @@ const NavBar = () => {
                 </Link>
               ) : null}
 
-              <Link>
+              <Link to={"/catalogue/book-store"}>
                 <span className="profile-btns">Book Store</span>
               </Link>
             </li>
