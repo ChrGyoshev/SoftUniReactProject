@@ -210,7 +210,7 @@ const BookList = () => {
                         ></i>
                         <i
                           className="fa-solid fa-pen-to-square"
-                          bookId={book.id}
+                          bookid={book.id}
                           onClick={() => {
                             editBookHandler();
                             setSelectedBookId(book.id);
@@ -218,7 +218,7 @@ const BookList = () => {
                         ></i>
                       </td>
                       <td>
-                        <div class="custom-select">
+                        <div className="custom-select">
                           <select
                             name="status"
                             id={book.id}
