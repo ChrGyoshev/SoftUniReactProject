@@ -8,7 +8,7 @@ export default function BookStoreSingleBookElement({ bookData, user }) {
   const books = bookData.results;
 
   return (
-    <div>
+    <>
       {Object.values(books).map((book) => (
         <div className={styles.content} key={book.id}>
           <Link to="/" className={styles.galleryRedirectToDetails}>
@@ -27,6 +27,6 @@ export default function BookStoreSingleBookElement({ bookData, user }) {
           </Link>
         </div>
       ))}
-    </div>
+    </>
   );
 }
