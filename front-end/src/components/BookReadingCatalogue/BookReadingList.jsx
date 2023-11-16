@@ -185,7 +185,8 @@ const BookList = () => {
                   {books.map((book) => (
                     <tr key={book.id} className={getBookClass(book)}>
                       <td>
-                        {!book.cover ? (
+                        {book.cover === "" ||
+                        book.cover === null ? (
                           <img
                             src="/bookDefault.png"
                             alt="asd"

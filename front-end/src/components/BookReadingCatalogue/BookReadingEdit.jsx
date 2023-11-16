@@ -4,13 +4,12 @@ const EditSingleBook = ({ showForm, bookId, updateBooksOnPatch, books }) => {
   const specificBook = books.find((book) => book.id === bookId);
 
   const [formData, setFormData] = useState({
-    title: specificBook.title,
-    author: specificBook.author,
-    cover: specificBook.cover,
-    pages: specificBook.pages,
+    title: specificBook.title !== null ? specificBook.title : "",
+    author: specificBook.author !== null ? specificBook.author : "",
+    cover: specificBook.cover !== null ? specificBook.cover : "",
+    pages: specificBook.pages !== null ? specificBook.pages : "",
   });
-  
-  
+
   function inputChangeHandler(e) {
     setFormData((state) => ({
       ...state,
@@ -30,7 +29,7 @@ const EditSingleBook = ({ showForm, bookId, updateBooksOnPatch, books }) => {
     fetch(BASE_URL, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json", 
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(submitData),
     })
