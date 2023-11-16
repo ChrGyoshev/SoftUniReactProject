@@ -1,6 +1,7 @@
 import uuid
 
 from rest_framework import status, generics
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -89,10 +90,12 @@ class BookEdit(generics.RetrieveUpdateAPIView):
 
 # BOOK STORE
 
-
+class SingleElementPagination(PageNumberPagination):
+    page_size = 1
 class BookStoreAdd(generics.ListCreateAPIView):
     queryset = BookStore.objects.all()
     serializer_class = BookStoreSerializer
+    # pagination_class =SingleElementPagination
 
     def perform_create(self, serializer):
         user_id = self.request.data['owner']

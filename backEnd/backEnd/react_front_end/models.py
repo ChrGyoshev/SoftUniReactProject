@@ -87,7 +87,7 @@ class BookReadingList(models.Model):
 # Book Store
 
 class BookStore(models.Model):
-    book_title = models.CharField(
+    title = models.CharField(
         max_length=100,
     )
 
