@@ -91,11 +91,11 @@ class BookEdit(generics.RetrieveUpdateAPIView):
 # BOOK STORE
 
 class SingleElementPagination(PageNumberPagination):
-    page_size = 1
+    page_size = 2
 class BookStoreAdd(generics.ListCreateAPIView):
     queryset = BookStore.objects.all()
     serializer_class = BookStoreSerializer
-    # pagination_class =SingleElementPagination
+    pagination_class =SingleElementPagination
 
     def perform_create(self, serializer):
         user_id = self.request.data['owner']

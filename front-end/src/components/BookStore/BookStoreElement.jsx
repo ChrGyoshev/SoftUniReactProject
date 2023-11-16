@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import styles from "./BookStoreCatalogue.module.css";
 
-export default function BookStoreSingleBookElement({ ...bookData }) {
+export default function BookStoreSingleBookElement({ bookData }) {
+  if (!bookData || bookData.results.length === 0) {
+    return <div>No books available.</div>;
+  }
+  const books = bookData.results;
+
   return (
     <div>
-      {Object.values(bookData).map((book) => (
+      {Object.values(books).map((book) => (
         <div className={styles.content} key={book.id}>
           <Link to="/" className={styles.galleryRedirectToDetails}>
             <img
