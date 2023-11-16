@@ -1,0 +1,274 @@
+
+.content h3 {
+    text-align: center;
+    font-size: 30px;
+    margin: 0;
+    padding-top: 10px;
+}
+
+a {
+    text-decoration: none;
+
+}
+
+.gallery {
+    display: flex;
+    gap: 24px;
+    justify-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.gallery-redirect-to-details {
+    text-decoration: none;
+    color: black;
+}
+
+.content {
+    flex-basis: 22%;
+    min-width: 300px;
+    margin: 15px;
+    box-sizing: border-box;
+    float: left;
+    text-align: center;
+    border-radius: 20px;
+    padding-top: 10px;
+    box-shadow: 0 14px 28px black;
+    transition: .4s;
+    background: white;
+
+
+}
+
+.content:hover {
+    box-shadow: 0 3px 6px black;
+    transform: translate(0px, -10px);
+}
+
+.content img {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    border-radius: 10%;
+}
+
+.content p {
+    text-align: center;
+    color: grey;
+    padding-top: 0;
+
+}
+
+.content ul {
+    padding-left: 0;
+}
+
+h6 {
+    font-size: 26px;
+    text-align: center;
+    margin: 0;
+    color: darkblue;
+}
+
+
+.gallery li {
+    padding-top: 5px;
+}
+
+.content button {
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    width: 100%;
+    padding: 15px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    margin-top: 5px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background: rgba(2, 11, 49, 0.87);
+
+}
+
+/*Paginator*/
+
+.page-count-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 35px 0;
+}
+
+.btn-paginator {
+    color: #c2c0c0;
+    text-decoration: none;
+    padding: 3px 3px;
+    border-radius: 15%;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    margin-right: 10px;
+    text-align: center;
+    width: 30px;
+}
+
+.btn-paginator:hover {
+    background-color: white;
+    color: black;
+
+}
+
+.current-page {
+    background-color: white;
+    color: black;
+}
+
+
+/*BOOK ADD*/
+
+.edit-submit-btn.submit-book-btn {
+    margin-left: 50px;
+}
+
+.book-card textarea {
+    height: 9vh;
+}
+
+.book-file {
+    overflow: auto;
+}
+
+.price-author-wrapper{
+    display:flex;
+    justify-content:space-between;
+}
+.price-author-wrapper input[name="price"] {
+    width: 30% ;
+    text-align:center;
+}
+.price-author-wrapper select[name="author"] {
+    width:58%;
+}
+
+/*Search bar*/
+
+
+
+.search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+
+.search-bar input[name="search"] {
+    border: none;
+    width: 35%;
+    padding: 12px;
+    padding-left: 20px;
+    outline: none;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+    font-size:16px;
+
+
+}
+
+#search-btn {
+    border: none;
+    color: white;
+    background-color: #007bff;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 0 25px;
+}
+
+#search-btn:hover {
+    cursor: pointer;
+
+}
+
+/* BOOK DETAILS*/
+.book-details-wrapper {
+    width: 95%;
+    background: rgba(255, 255, 255, 0.63);
+    border: none;
+    border-radius: 14px;
+    margin: auto;
+}
+
+.book-details {
+    display: flex;
+
+    align-items: flex-start;
+}
+
+.book-details-author {
+    font-style: italic;
+}
+
+.book-details-description {
+    font-size:24px;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+.book-details-price-tag {
+    display: inline-block;
+    width: 300px;
+    background-color: rgb(255 255 255 / 20%);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+
+}
+
+
+
+.book-details-image {
+    width: 450px;
+    height: 650px;
+    padding: 40px;
+}
+
+.book-details-image img {
+
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: -1px -1px 20px 4px black;
+
+}
+
+.book-details-text h1 {
+    font-size: 2rem;
+}
+
+/*BOOK DETAILS BUTTONS*/
+
+.book-details-cart-add button, .book-details-cart-back button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    width: 150px;
+    box-shadow: 0px 0px 6px #000000a6;
+
+
+}
+
+.book-details-cart-add button:hover, .book-details-cart-back button:hover {
+    cursor: pointer;
+    background: black;
+
+}
+
+.book-details-button-wrapper {
+    display: flex;
+    gap: 20px;
+}
+

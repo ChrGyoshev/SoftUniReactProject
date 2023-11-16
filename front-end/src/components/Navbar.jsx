@@ -1,5 +1,5 @@
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
-import { useLayoutEffect, useRef, useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
 import { HideNavBar } from "../assets/js/HideNavbar";
 import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
