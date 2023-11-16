@@ -1,8 +1,7 @@
-import { useUser } from "../UserContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export default function AddBookStore({ showForm }) {
-  const { user } = useUser();
+export default function AddBookStore({ showForm, user }) {
+  console.log(user);
 
   return (
     <>
@@ -54,10 +53,10 @@ export default function AddBookStore({ showForm }) {
             />
 
             <div className="add-book-btns">
-              <button type="submit" className="submit-book">
+              <button type="button" className="submit-book" onClick={showForm}>
                 Add Book
               </button>
-              <button type="submit" className="submit-book" onClick={showForm}>
+              <button type="button" className="submit-book" onClick={showForm}>
                 Cancel
               </button>
             </div>
