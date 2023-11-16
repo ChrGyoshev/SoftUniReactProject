@@ -1,10 +1,24 @@
 import styles from "./BookStoreCatalogue.module.css";
 import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import AddBookStore from "./AddBook";
 
 export default function BookStoreCatalogue() {
+  const [showForm, setShowForm] = useState(false);
+  const pageContent = useRef();
+
+  function showFormHandler(e) {
+    e.preventDefault();
+    setShowForm(!showForm);
+    pageContent.current.style.display =
+      pageContent.current.style.display === "none" ? "flex" : "none";
+  }
+
   return (
     <>
-      <div className={styles.gallery}>
+      <button onClick={showFormHandler}>Add Book</button>
+      {showForm && <AddBookStore showForm={showFormHandler} />}
+      <div className={styles.gallery} ref={pageContent}>
         <div className={styles.content}>
           <Link to="/" className={styles.galleryRedirectToDetails}>
             <img

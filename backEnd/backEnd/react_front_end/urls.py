@@ -15,7 +15,7 @@ urlpatterns = [
  path("api/book-reading-list/edit/<str:pk>/", BookEdit.as_view(), name='edit reading book'),
 
 
- path('api/book-store/create/', BookStoreAdd.as_view(), name='add book store '),
+ path('api/book-store/list/', BookStoreAdd.as_view(), name='add book store '),
 
 
 ]
