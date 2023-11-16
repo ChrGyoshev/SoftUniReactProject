@@ -4,16 +4,16 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from backEnd.react_front_end.models import Profile, BookReadingList
+from backEnd.react_front_end.models import Profile, BookReadingList, BookStore
 from backEnd.react_front_end.serializers import ProfileSerializer, ProfileEditSerializer, \
-    BookReadingListCreateSerializer
+    BookReadingListCreateSerializer, BookStoreSerializer
 
 
 class ProfileApiView(APIView):
     def get(self, request, *args, **kwargs):
         profiles = Profile.objects.all()
         serializer = ProfileSerializer(profiles, many=True)
-        return Response(serializer.data, status= status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         id = request.data.get('uid')
@@ -37,19 +37,21 @@ class ProfileDetail(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+
 class ProfileDelete(generics.DestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
 
 class ProfileEdit(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileEditSerializer
 
 
-#BOOK READING LIST VIEWS
+# BOOK READING LIST VIEWS
 
 
-#CREATING BOOK
+# CREATING BOOK
 class BookCreateListView(generics.ListCreateAPIView):
     queryset = BookReadingList.objects.all()
     serializer_class = BookReadingListCreateSerializer
@@ -64,7 +66,8 @@ class BookCreateListView(generics.ListCreateAPIView):
 
         serializer.save(profile=profile)
 
-#GET BOOKS
+
+# GET BOOKS
 class BookReadingByUserList(generics.ListAPIView):
     serializer_class = BookReadingListCreateSerializer
 
@@ -79,9 +82,24 @@ class BookReadingDelete(generics.DestroyAPIView):
     serializer_class = BookReadingListCreateSerializer
 
 
-
 class BookEdit(generics.RetrieveUpdateAPIView):
     queryset = BookReadingList.objects.all()
     serializer_class = BookReadingListCreateSerializer
 
 
+# BOOK STORE
+
+
+class BookStoreAdd(generics.ListCreateAPIView):
+    queryset = BookStore.objects.all()
+    serializer_class = BookStoreSerializer
+
+    def perform_create(self, serializer):
+        user_id = self.request.data['owner']
+
+        try:
+            profile = Profile.objects.get(id=user_id)
+        except:
+            raise Exception('Profile not found')
+
+        serializer.save(owner=profile)

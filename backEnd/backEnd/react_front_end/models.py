@@ -12,7 +12,7 @@ def phone_regex_validator(value):
 
 
 
-
+# Profiles
 class Profile(models.Model):
     CHOICES = [
         ('Male',"Male"),
@@ -49,6 +49,7 @@ class Profile(models.Model):
 
     )
 
+# Book Reading List
 class BookReadingList(models.Model):
     STATUS = [
         ('In Progress', "In Progress"),
@@ -81,3 +82,31 @@ class BookReadingList(models.Model):
         blank=True,
         null=True,
     )
+
+
+# Book Store
+
+class BookStore(models.Model):
+    book_title = models.CharField(
+        max_length=100,
+    )
+
+    author = models.CharField(
+        max_length=80,
+    )
+
+    description = models.CharField(
+        max_length= 1200,
+        blank=True,
+        null=True,
+    )
+
+    price = models.PositiveIntegerField(
+
+    )
+
+    cover = models.URLField(
+        max_length=500,
+    )
+
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="books")

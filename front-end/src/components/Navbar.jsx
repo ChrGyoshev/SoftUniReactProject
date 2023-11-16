@@ -55,15 +55,15 @@ const NavBar = () => {
             </Link>
             <li className="lia" onClick={handlerDropDownBtns}>
               <span className="li">Catalogue</span>
+              <Link to={"/catalogue/book-store"}>
+                <span className="profile-btns">Book Store</span>
+              </Link>
+
               {user ? (
                 <Link to={"catalogue/book-list"}>
                   <span className="profile-btns">Reading List</span>
                 </Link>
               ) : null}
-
-              <Link to={"/catalogue/book-store"}>
-                <span className="profile-btns">Book Store</span>
-              </Link>
             </li>
 
             {user ? (
