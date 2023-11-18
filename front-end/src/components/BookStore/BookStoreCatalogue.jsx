@@ -11,7 +11,7 @@ export default function BookStoreCatalogue() {
   const BASEURL = `http://localhost:8000/api/book-store/list/`;
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { user } = useUser();
+  const user = useUser();
 
   useEffect(() => {
     fetch(`${BASEURL}?page=${currentPage}`)

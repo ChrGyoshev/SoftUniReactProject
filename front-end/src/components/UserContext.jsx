@@ -21,15 +21,7 @@ export const UserProvider = ({ children }) => {
     return () => unsubscribe();
   }, [auth]);
 
-  const updateUser = (newUser) => {
-    setUser(newUser);
-  };
-
-  return (
-    <UserContext.Provider value={{ user, updateUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {
