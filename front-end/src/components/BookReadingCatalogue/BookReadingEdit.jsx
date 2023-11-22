@@ -1,5 +1,11 @@
 import { useState } from "react";
-const EditSingleBook = ({ showForm, bookId, updateBooksOnPatch, books }) => {
+const EditSingleBook = ({
+  showForm,
+  bookId,
+  updateBooksOnPatch,
+  books,
+  token,
+}) => {
   const BASE_URL = `http://localhost:8000/api/book-reading-list/edit/${bookId}/`;
   const specificBook = books.find((book) => book.id === bookId);
 
@@ -30,6 +36,7 @@ const EditSingleBook = ({ showForm, bookId, updateBooksOnPatch, books }) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(submitData),
     })

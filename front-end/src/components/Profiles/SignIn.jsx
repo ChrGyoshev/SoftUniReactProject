@@ -1,9 +1,16 @@
 import React, { useRef, useState } from "react";
-import ShowPassword from "../assets/js/PasswordHide";
+import ShowPassword from "../../assets/js/PasswordHide";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../firebase";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  setPersistence,
+  browserSessionPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
+import { auth, googleProvider } from "../../firebase";
 import GoogleButton from "react-google-button";
+import useClickOutside from "../hooks/useClickOutside";
 
 function YourComponent() {
   const inputOne = useRef(null);
@@ -11,7 +18,9 @@ function YourComponent() {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState([]);
+  const errorBoxRef = useRef(null);
+  const remmemberMeRef = useRef(null);
 
   const handleClick = (...clickedRef) => {
     const [input, ico] = clickedRef;
@@ -20,14 +29,35 @@ function YourComponent() {
 
   const Submitting = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredidential) => {
-        navigate("/");
-      })
-      .catch((error) => {
-        if (error.code === "auth/too-many-requests")
-          setError("too many requests");
-      });
+    const browserPersistence = remmemberMeRef.current.checked
+      ? browserLocalPersistence
+      : browserSessionPersistence;
+    setPersistence(auth, browserPersistence).then(function () {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredidential) => {
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.code === "auth/invalid-email") {
+            setErrors((prevErrors) => [...prevErrors, "Invalid email"]);
+          } else if (error.code === "auth/missing-password") {
+            setErrors((prevData) => [...prevData, "Missing password"]);
+          } else if (error.code === "auth/invalid-login-credentials") {
+            setErrors((prevData) => [
+              ...prevData,
+              "Email/Password doesnt match",
+            ]);
+          } else if (error.code === "auth/too-many-requests") {
+            setErrors((prevErrors) => [
+              ...prevErrors,
+              "Too many requests. PLease try again later",
+            ]);
+          } else {
+            setErrors((prevData) => [...prevData, error.message]);
+          }
+        });
+    });
   };
 
   const googleLogIn = (e) => {
@@ -56,8 +86,30 @@ function YourComponent() {
       });
   };
 
+  const resetErrors = () => {
+    setErrors([]);
+  };
+
+  useClickOutside(errorBoxRef, resetErrors);
+
   return (
     <>
+      {errors.length > 0 ? (
+        <div className="overlay-errors">
+          <div className="error-box" ref={errorBoxRef}>
+            <button className="button-close-edit-profile" onClick={resetErrors}>
+              x
+            </button>
+            <h2>Something went wrong</h2>
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
+
       <div className="login-box sign-up-box">
         <h2>Sign In</h2>
         <form method="post" action="">
@@ -88,6 +140,10 @@ function YourComponent() {
             />
             <label>Password</label>
           </div>
+          <div className="remember-me">
+            <label htmlFor="checkbox">Remember me</label>
+            <input type="checkbox" id="checkbox" ref={remmemberMeRef} />
+          </div>
 
           <div className="google-btn">
             <button className="submit" onClick={Submitting}>
@@ -107,8 +163,6 @@ function YourComponent() {
           </div>
         </form>
       </div>
-
-      {error && <div className="error">{error}</div>}
     </>
   );
 }

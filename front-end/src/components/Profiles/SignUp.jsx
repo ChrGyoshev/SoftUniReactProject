@@ -1,20 +1,22 @@
-import { useState, useRef } from "react";
-import ShowPassword from "../assets/js/PasswordHide";
-import { auth } from "../firebase";
+import { useState, useRef, useEffect } from "react";
+import ShowPassword from "../../assets/js/PasswordHide";
+import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import useClickOutside from "../hooks/useClickOutside";
 
 const SignUp = () => {
   const inputOne = useRef(null);
   const iconOne = useRef(null);
   const inputTwo = useRef(null);
   const iconTwo = useRef(null);
+  const errorBoxRef = useRef(null);
   let navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState(null);
+  const [errors, setErrors] = useState([]);
 
   const Submitting = async (e) => {
     e.preventDefault();
@@ -46,11 +48,12 @@ const SignUp = () => {
           console.error("POST request to Django failed");
         }
       } catch (error) {
-        console.error("Firebase authentication error:", error.message);
+        console.log("Firebase authentication error:", error.message);
+        setErrors((prevErrors) => [...prevErrors, error.message]);
         console.log(auth.currentUser.delete());
       }
     } else {
-      setErrors("Passwords are not same");
+      setErrors((prevErrors) => [...prevErrors, "Passwords did not match!"]);
     }
   };
 
@@ -59,9 +62,29 @@ const SignUp = () => {
     ShowPassword(input, ico);
   };
 
+  const resetErrors = () => {
+    setErrors([]);
+  };
+
+  useClickOutside(errorBoxRef, resetErrors);
+
   return (
     <>
-      {errors ? <div className="errors">{errors}</div> : null}
+      {errors.length > 0 ? (
+        <div className="overlay-errors">
+          <div className="error-box" ref={errorBoxRef}>
+            <button className="button-close-edit-profile" onClick={resetErrors}>
+              x
+            </button>
+            <h2>Something went wrong</h2>
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
       <div className="login-box sign-up-box">
         <h2>Sign Up</h2>
 

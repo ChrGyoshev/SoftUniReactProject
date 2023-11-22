@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useUser } from "./../UserContext";
 
 const EditProfile = ({ showProfile, onFormSubmit, userId }) => {
   const [formData, setFormData] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
   const BaseUrl = `http://127.0.0.1:8000/api/edit/${userId}/`;
+  const { token } = useUser();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +46,9 @@ const EditProfile = ({ showProfile, onFormSubmit, userId }) => {
       try {
         const response = await fetch(BaseUrl, {
           method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: newData,
         });
 

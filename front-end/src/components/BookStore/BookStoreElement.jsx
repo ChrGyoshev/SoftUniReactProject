@@ -8,25 +8,22 @@ export default function BookStoreSingleBookElement({ bookData, user }) {
   const books = bookData.results;
 
   return (
-    <>
+    <div className={styles.gallery}>
       {Object.values(books).map((book) => (
         <div className={styles.content} key={book.id}>
           <Link to="/" className={styles.galleryRedirectToDetails}>
-            <img
-              src="https://images.ctfassets.net/usf1vwtuqyxm/24YWmI4UcyoMwj7wdKrEcL/374de1941927db12bd844fb197eab11f/English_Harry_Potter_3_Epub_9781781100233.jpg?w=914&q=70&fm=jpg"
-              alt=""
-            />
+            <img src={book.cover} alt="" />
 
             <h3>{book.title}</h3>
             <p>{book.description}</p>
-            <h6>19.90$</h6>
-            <p>J.K Rowling</p>
+            <h6>{book.price}$</h6>
+            <p>{book.author}</p>
           </Link>
           <Link to="sing-in">
             <button>Buy Now</button>
           </Link>
         </div>
       ))}
-    </>
+    </div>
   );
 }

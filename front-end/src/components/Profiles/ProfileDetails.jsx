@@ -1,6 +1,6 @@
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import EditProfile from "./EditProfile";
 
 const ProfileDetails = () => {
@@ -9,8 +9,6 @@ const ProfileDetails = () => {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const ProfileCard = useRef(null);
 
-  let urlView = "";
-  const imageInput = useRef(null);
   useEffect(() => {
     if (auth.currentUser !== null) {
       setUser(auth.currentUser);

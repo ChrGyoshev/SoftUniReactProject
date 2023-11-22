@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import useClickOutside from "../hooks/useClickOutside";
 
-const BookReadingSingle = ({ showForm, user, updateBooks }) => {
-  
+const BookReadingSingle = ({ showForm, user, updateBooks, token }) => {
   const formInitialState = {
     title: "",
     author: "",
@@ -9,6 +9,8 @@ const BookReadingSingle = ({ showForm, user, updateBooks }) => {
   };
   const [formData, setFormData] = useState(formInitialState);
   const Base_url = "http://localhost:8000/api/books-reading-list";
+  const errorBoxRef = useRef();
+  const [errors, setErrors] = useState([]);
 
   function inputChangeHandler(e) {
     setFormData((state) => ({
@@ -24,10 +26,25 @@ const BookReadingSingle = ({ showForm, user, updateBooks }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(formData),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.json().then((errorData) => {
+            if (errorData) {
+              const newErrorMessages = Object.entries(errorData).map(
+                ([field, errors]) => `${field}: ${errors[0]}`
+              );
+              setErrors(newErrorMessages);
+              throw new Error("Server error");
+            }
+          });
+        }
+      })
       .then((data) => {
         updateBooks(data);
         showForm();
@@ -35,8 +52,30 @@ const BookReadingSingle = ({ showForm, user, updateBooks }) => {
       .catch((error) => console.error(error));
   }
 
+  const resetErrors = () => {
+    setErrors([]);
+  };
+
+  useClickOutside(errorBoxRef, resetErrors);
+
   return (
     <>
+      {errors.length > 0 ? (
+        <div className="overlay-errors">
+          <div className="error-box" ref={errorBoxRef}>
+            <button className="button-close-edit-profile" onClick={resetErrors}>
+              x
+            </button>
+            <h2>Something went wrong</h2>
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
+
       <div className="overlay" onClick={showForm}></div>
       <div className="modular">
         <section className="form-edit-profile">

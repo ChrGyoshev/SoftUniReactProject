@@ -1,13 +1,19 @@
-import uuid
 
-from rest_framework import status, generics
+import firebase_admin
+from rest_framework import status, generics, request
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from backEnd.react_front_end.models import Profile, BookReadingList, BookStore
 from backEnd.react_front_end.serializers import ProfileSerializer, ProfileEditSerializer, \
     BookReadingListCreateSerializer, BookStoreSerializer
+from firebase_admin import credentials
+from firebase_admin import auth
+from django.conf import settings
+from backEnd.react_front_end.utilis import get_token_from_request
+
+firebase_credentials = credentials.Certificate(settings.FIREBASE_CONFIG)
+firebase_app = firebase_admin.initialize_app(firebase_credentials)
 
 
 class ProfileApiView(APIView):
@@ -43,10 +49,32 @@ class ProfileDelete(generics.DestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+    def destroy(self, request, *args, **kwargs):
+        token = get_token_from_request(self.request)
+
+        try:
+            decoded_token = auth.verify_id_token(token)
+            return super().destroy(request, *args, **kwargs)
+        except:
+            return Response({"error": "Invalid token"}, status=400)
+
+
+
+
+
 
 class ProfileEdit(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileEditSerializer
+
+    def patch(self, request, *args, **kwargs):
+        token = get_token_from_request(self.request)
+        try:
+            decoded_token = auth.verify_id_token(token)
+            return super().patch(request, *args, **kwargs)
+        except:
+            return Response({"error": "Invalid token"}, status=400)
+
 
 
 # BOOK READING LIST VIEWS
@@ -57,15 +85,20 @@ class BookCreateListView(generics.ListCreateAPIView):
     queryset = BookReadingList.objects.all()
     serializer_class = BookReadingListCreateSerializer
 
+
+
     def perform_create(self, serializer):
+        token = get_token_from_request(self.request)
         user_id = self.request.data['profile']
 
         try:
             profile = Profile.objects.get(id=user_id)
+            decoded_token = auth.verify_id_token(token)
+            return serializer.save(profile=profile)
         except:
-            raise Exception('profile not found')
+            raise Exception('not valid token')
 
-        serializer.save(profile=profile)
+
 
 
 # GET BOOKS
@@ -82,10 +115,28 @@ class BookReadingDelete(generics.DestroyAPIView):
     queryset = BookReadingList.objects.all()
     serializer_class = BookReadingListCreateSerializer
 
+    def delete(self, request, *args, **kwargs):
+        token = get_token_from_request(self.request)
+        try:
+            decoded_token = auth.verify_id_token(token)
+            return super().delete(request,*args, **kwargs)
+        except:
+            return Response({"error": "Invalid token"}, status=400)
+
+
+
 
 class BookEdit(generics.RetrieveUpdateAPIView):
     queryset = BookReadingList.objects.all()
     serializer_class = BookReadingListCreateSerializer
+
+    def patch(self, request, *args, **kwargs):
+        token = get_token_from_request(self.request)
+        try:
+            decoded_token = auth.verify_id_token(token)
+            return super().patch(request, *args, **kwargs)
+        except:
+            return Response({'error': 'Invalid Token'})
 
 
 # BOOK STORE
@@ -99,9 +150,11 @@ class BookStoreAdd(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         user_id = self.request.data['owner']
+        token = get_token_from_request(self.request)
 
         try:
             profile = Profile.objects.get(id=user_id)
+            auth.verify_id_token(token)
         except:
             raise Exception('Profile not found')
 

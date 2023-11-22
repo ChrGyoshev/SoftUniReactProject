@@ -10,6 +10,7 @@ const BookList = () => {
   const [editBook, setEditBook] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
   const [selectedBookId, setSelectedBookId] = useState();
+  const [token, setToken] = useState();
 
   const tableElement = useRef();
   const bookBtns = useRef();
@@ -17,9 +18,10 @@ const BookList = () => {
   useEffect(() => {
     const auth = getAuth();
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
+        setToken(await user.getIdToken());
       }
     });
   }, []);
@@ -80,6 +82,9 @@ const BookList = () => {
 
     fetch(deleteURL, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => {
         if (response.ok) {
@@ -99,6 +104,7 @@ const BookList = () => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ status: newStatus }),
     })
@@ -107,6 +113,7 @@ const BookList = () => {
   }
 
   function UpdateBooks(newBooks) {
+      
     setBooks((oldData) => [...oldData, newBooks]);
   }
 
@@ -185,8 +192,7 @@ const BookList = () => {
                   {books.map((book) => (
                     <tr key={book.id} className={getBookClass(book)}>
                       <td>
-                        {book.cover === "" ||
-                        book.cover === null ? (
+                        {book.cover === "" || book.cover === null ? (
                           <img
                             src="/bookDefault.png"
                             alt="asd"
@@ -247,6 +253,7 @@ const BookList = () => {
           showForm={addBookHandler}
           user={user}
           updateBooks={UpdateBooks}
+          token={token}
         />
       )}
 
@@ -256,6 +263,7 @@ const BookList = () => {
           bookId={selectedBookId}
           updateBooksOnPatch={updateBooksOnPatch}
           books={books}
+          token={token}
         />
       )}
     </>

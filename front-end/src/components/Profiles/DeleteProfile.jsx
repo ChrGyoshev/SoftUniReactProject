@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
-import { getLoggedUser } from "../firebase";
+import { getLoggedUser } from "../../firebase";
 import { useState, useEffect } from "react";
+import { useUser } from "./../UserContext";
 
 const DeleteProfile = () => {
   const [user, setUser] = useState("");
   const [url, setUrl] = useState("");
   const [deleted, setDeleted] = useState(false);
   let navigate = useNavigate();
+  const { token } = useUser();
 
   useEffect(() => {
     setUser(getLoggedUser());
@@ -22,6 +24,7 @@ const DeleteProfile = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
 
