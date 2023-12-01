@@ -154,6 +154,10 @@ class SingleBookDetails(generics.RetrieveAPIView):
 
 
 
+class BookStoreCatalogue(generics.ListCreateAPIView):
+    queryset = BookStore.objects.all().order_by('id')
+    serializer_class = BookStoreCatalogueSerializer
+    pagination_class = SingleElementPagination
 
 class BookStoreAdd(generics.ListCreateAPIView):
     queryset = BookStore.objects.all().order_by('id')

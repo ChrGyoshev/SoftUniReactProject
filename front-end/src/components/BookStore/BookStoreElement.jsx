@@ -40,7 +40,7 @@ export default function BookStoreSingleBookElement({
         )}
         {Object.values(books).map((book) => (
           <div className={styles.content} key={book.id}>
-            {user && book.owner === user.uid && (
+            {user && book.owner.id === user.uid && (
               <div className={styles.bookStoreBtns}>
                 <i
                   className="fa-solid fa-pen-to-square bookEditBtn"
@@ -62,7 +62,7 @@ export default function BookStoreSingleBookElement({
                 <h3>{book.title}</h3>
                 <h6>{book.price}$</h6>
                 <p>{book.author}</p>
-                <p>{console.log(book)}</p>
+                {book.owner.email && <p>Seller: {book.owner.email}</p>}
               </Link>
             </div>
             <div className={styles.buyNow}>

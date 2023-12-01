@@ -2,7 +2,7 @@ from django.urls import path
 
 from backEnd.react_front_end.views import ProfileApiView, ProfileDetail, ProfileDelete, ProfileEdit, BookCreateListView, \
  BookReadingByUserList, BookReadingDelete, BookEdit, BookStoreAdd, BookStoreDeleteBook, BookStoreEditBook, \
- SingleBookDetails
+ SingleBookDetails, BookStoreCatalogue
 
 urlpatterns = [
  path('api',ProfileApiView.as_view()),
@@ -15,7 +15,7 @@ urlpatterns = [
  path("api/books-reading-list/delete/<str:pk>/", BookReadingDelete.as_view(), name='delete reading book'),
  path("api/book-reading-list/edit/<str:pk>/", BookEdit.as_view(), name='edit reading book'),
 
-
+ path('api/book-store/catalogue/', BookStoreCatalogue.as_view(), name='book store catalogue'),
  path('api/book-store/list/', BookStoreAdd.as_view(), name='add book store '),
  path('api/book-store/delete/<int:pk>/', BookStoreDeleteBook.as_view(), name= 'delete book store'),
  path('api/book-store/edit/<int:pk>/', BookStoreEditBook.as_view(), name='edit book store'),

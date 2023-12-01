@@ -8,7 +8,7 @@ import useClickOutside from "../hooks/useClickOutside";
 import BookStoreEditBook from "./BookStoreEditBook";
 
 export default function BookStoreCatalogue() {
-  const BASEURL = `http://localhost:8000/api/book-store/list/`;
+  const BASEURL = `http://localhost:8000/api/book-store/catalogue/`;
   const { page } = useParams();
   const [bookData, setBookData] = useState("");
   const [currentBook, setCurrentBook] = useState("");
@@ -75,7 +75,6 @@ export default function BookStoreCatalogue() {
   };
 
   useClickOutside(errorBoxRef, resetErrors);
-
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
