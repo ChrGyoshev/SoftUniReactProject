@@ -141,8 +141,17 @@ class BookEdit(generics.RetrieveUpdateAPIView):
 
 # BOOK STORE
 
+
 class SingleElementPagination(PageNumberPagination):
     page_size = 6
+
+
+class SingleBookDetails(generics.RetrieveAPIView):
+    queryset = BookStore.objects.all()
+    serializer_class = BookStoreSerializer
+
+
+
 class BookStoreAdd(generics.ListCreateAPIView):
     queryset = BookStore.objects.all().order_by('id')
     serializer_class = BookStoreSerializer

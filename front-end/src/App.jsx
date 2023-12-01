@@ -8,6 +8,7 @@ import ProfileDetails from "./components/Profiles/ProfileDetails";
 import BookList from "./components/BookReadingCatalogue/BookReadingList";
 import BookStoreCatalogue from "./components/BookStore/BookStoreCatalogue";
 import AddBookStore from "./components/BookStore/AddBook";
+import ElementDetails from "./components/BookStore/BookStoreElementDetails";
 import { Route, Routes } from "react-router-dom";
 import { UserProvider } from "./components/UserContext";
 
@@ -32,6 +33,11 @@ function App() {
             <Route
               path="/catalogue/book-store/add"
               element={<AddBookStore />}
+            />
+
+            <Route
+              path="/catalogue/book-store/details/:id"
+              element={<ElementDetails />}
             />
           </Routes>
         </UserProvider>
