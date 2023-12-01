@@ -55,7 +55,7 @@ export default function BookStoreSingleBookElement({
             )}
             <div className={styles.cardContent}>
               <Link
-                to={`details/${book.id}`}
+                to={`/catalogue/book-store/details/${book.id}`}
                 className={styles.galleryRedirectToDetails}
               >
                 <img src={book.cover} alt="" />

@@ -57,7 +57,7 @@ const NavBar = () => {
             </Link>
             <li className="lia" onClick={handlerDropDownBtns}>
               <span className="li">Catalogue</span>
-              <Link to={"/catalogue/book-store"}>
+              <Link to={"/catalogue/book-store/1"}>
                 <span className="profile-btns">Book Store</span>
               </Link>
 

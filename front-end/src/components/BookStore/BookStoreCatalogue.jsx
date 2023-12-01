@@ -1,7 +1,7 @@
 import styles from "./BookStoreCatalogue.module.css";
 import { useUser } from "../UserContext";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddBookStore from "./AddBook";
 import BookStoreSingleBookElement from "./BookStoreElement";
 import useClickOutside from "../hooks/useClickOutside";
@@ -9,6 +9,7 @@ import BookStoreEditBook from "./BookStoreEditBook";
 
 export default function BookStoreCatalogue() {
   const BASEURL = `http://localhost:8000/api/book-store/list/`;
+  const { page } = useParams();
   const [bookData, setBookData] = useState("");
   const [currentBook, setCurrentBook] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -16,7 +17,7 @@ export default function BookStoreCatalogue() {
   const [errors, setErrors] = useState([]);
   const errorBoxRef = useRef();
   const pageContent = useRef();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(parseInt(page));
   const { user } = useUser();
   const navigate = useNavigate();
 
@@ -75,6 +76,11 @@ export default function BookStoreCatalogue() {
 
   useClickOutside(errorBoxRef, resetErrors);
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    navigate(`/catalogue/book-store/${newPage}`);
+  };
+
   return (
     <>
       {errors.length > 0 && (
@@ -124,14 +130,14 @@ export default function BookStoreCatalogue() {
       </div>
       <div className={styles.paginator}>
         <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
           disabled={!bookData.previous}
         >
           Previous
         </button>
 
         <button
-          onClick={() => setCurrentPage((prev) => prev + 1)}
+          onClick={() => handlePageChange(currentPage + 1)}
           disabled={!bookData.next}
         >
           Next

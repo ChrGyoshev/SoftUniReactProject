@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import styles from "./BookStoreElementDetails.module.css";
 import { useEffect, useState } from "react";
 
@@ -6,6 +6,7 @@ const ElementDetails = () => {
   const { id } = useParams();
   const [bookData, setBookData] = useState("");
   const BASE_URL = `http://localhost:8000/api/book-store/${id}/`;
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -19,6 +20,7 @@ const ElementDetails = () => {
       .then((result) => setBookData(result))
       .catch((error) => console.log(error));
   }, []);
+
   return (
     <>
       <section className={styles["book-details-wrapper"]}>
@@ -45,7 +47,7 @@ const ElementDetails = () => {
                   <button>Buy now</button>
                 </div>
                 <div>
-                  <Link>Cancel</Link>
+                  <button onClick={() => navigate(-1)}>Cancel</button>
                 </div>
               </article>
             </article>

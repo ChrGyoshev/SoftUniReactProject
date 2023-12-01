@@ -27,7 +27,7 @@ function App() {
             <Route path="/profile-delete" element={<DeleteProfile />} />
             <Route path="/catalogue/book-list" element={<BookList />} />
             <Route
-              path="/catalogue/book-store"
+              path="/catalogue/book-store/:page"
               element={<BookStoreCatalogue />}
             />
             <Route
