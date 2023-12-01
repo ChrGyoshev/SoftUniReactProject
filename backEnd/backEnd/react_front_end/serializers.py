@@ -28,7 +28,14 @@ class BookReadingListCreateSerializer(serializers.ModelSerializer):
 # BOOK STORE SERIALIZERS
 
 class BookStoreSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = BookStore
         fields = "__all__"
 
+
+class BookStoreCatalogueSerializer(serializers.ModelSerializer):
+    owner = ProfileSerializer()
+    class Meta:
+        model = BookStore
+        fields = "__all__"

@@ -21,6 +21,12 @@ class Profile(models.Model):
 
     id = models.CharField(primary_key=True, default='',max_length=400,)
 
+    email = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True,
+    )
+
     username = models.CharField(
         max_length=50,
         blank=True,

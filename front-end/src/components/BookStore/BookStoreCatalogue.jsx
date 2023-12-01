@@ -76,6 +76,7 @@ export default function BookStoreCatalogue() {
 
   useClickOutside(errorBoxRef, resetErrors);
 
+
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     navigate(`/catalogue/book-store/${newPage}`);

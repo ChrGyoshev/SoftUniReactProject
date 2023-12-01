@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from backEnd.react_front_end.models import Profile, BookReadingList, BookStore
 from backEnd.react_front_end.serializers import ProfileSerializer, ProfileEditSerializer, \
-    BookReadingListCreateSerializer, BookStoreSerializer
+    BookReadingListCreateSerializer, BookStoreSerializer, BookStoreCatalogueSerializer
 from firebase_admin import credentials
 from firebase_admin import auth
 from django.conf import settings
@@ -24,7 +24,9 @@ class ProfileApiView(APIView):
 
     def post(self, request, *args, **kwargs):
         id = request.data.get('uid')
+        email = request.data.get('email')
         data = {
+            'email':email,
             'id': id,
             'username': request.data.get('username'),
             'phone_number': request.data.get('phone_number'),
@@ -152,6 +154,7 @@ class SingleBookDetails(generics.RetrieveAPIView):
 
 
 
+
 class BookStoreAdd(generics.ListCreateAPIView):
     queryset = BookStore.objects.all().order_by('id')
     serializer_class = BookStoreSerializer
@@ -168,6 +171,7 @@ class BookStoreAdd(generics.ListCreateAPIView):
             raise Exception('Profile not found')
 
         serializer.save(owner=profile)
+
 
 
 class BookStoreDeleteBook(generics.DestroyAPIView):

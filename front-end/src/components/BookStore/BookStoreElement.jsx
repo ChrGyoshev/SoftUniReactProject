@@ -59,11 +59,10 @@ export default function BookStoreSingleBookElement({
                 className={styles.galleryRedirectToDetails}
               >
                 <img src={book.cover} alt="" />
-
                 <h3>{book.title}</h3>
-
                 <h6>{book.price}$</h6>
                 <p>{book.author}</p>
+                <p>{console.log(book)}</p>
               </Link>
             </div>
             <div className={styles.buyNow}>

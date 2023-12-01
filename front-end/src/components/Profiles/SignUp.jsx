@@ -32,6 +32,7 @@ const SignUp = () => {
 
         const postData = {
           uid: userCredential.user.uid,
+          email: userCredential.user.email,
         };
 
         const response = await fetch(url, {
