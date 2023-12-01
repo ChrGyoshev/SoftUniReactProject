@@ -61,7 +61,7 @@ export default function BookStoreSingleBookElement({
                 <img src={book.cover} alt="" />
 
                 <h3>{book.title}</h3>
-                <p>{book.description}</p>
+
                 <h6>{book.price}$</h6>
                 <p>{book.author}</p>
               </Link>
