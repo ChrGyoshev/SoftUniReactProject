@@ -1,12 +1,13 @@
 
 import firebase_admin
+from django.db import transaction
 from rest_framework import status, generics, request
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from backEnd.react_front_end.models import Profile, BookReadingList, BookStore
+from backEnd.react_front_end.models import Profile, BookReadingList, BookStore, BookStoreLikes
 from backEnd.react_front_end.serializers import ProfileSerializer, ProfileEditSerializer, \
-    BookReadingListCreateSerializer, BookStoreSerializer, BookStoreCatalogueSerializer
+    BookReadingListCreateSerializer, BookStoreSerializer, BookStoreCatalogueSerializer, BookStoreLikeSerializer
 from firebase_admin import credentials
 from firebase_admin import auth
 from django.conf import settings
@@ -222,6 +223,67 @@ class BookStoreEditBook(generics.UpdateAPIView):
                 return Response('not right user')
         except:
             return Response('Invalid token')
+
+
+
+# HANDLE LIKES
+class GetLikedBookView(generics.RetrieveAPIView):
+    queryset = BookStore.objects.all()
+    serializer_class = BookStoreSerializer
+
+    def get(self, request, *args, **kwargs):
+        book = self.get_object()
+        serializer = self.get_serializer(book)
+        return Response(serializer.data)
+class LikeBookView(generics.GenericAPIView):
+    serializer_class = BookStoreLikeSerializer
+
+
+    def post(self, request, *args, **kwargs):
+        book_id = self.kwargs.get('pk')
+        book = BookStore.objects.get(pk=book_id)
+        token = get_token_from_request(self.request)
+
+        try:
+            decoded_token = auth.verify_id_token(token)
+            user_profile = Profile.objects.get(pk=decoded_token['uid'])
+            if BookStoreLikes.objects.filter(book=book, profile=user_profile).exists():
+                return Response({"detail": "You have already liked this book."}, status=400)
+            serializer = self.get_serializer(data={'book':book_id, 'profile': user_profile.id})
+            serializer.is_valid(raise_exception=True)
+
+           
+            serializer.save()
+            book.likes += 1
+            book.save()
+            return Response({"detail": "Book liked successfully."}, status=200)
+
+        except:
+            return Response('invalid token')
+
+    def delete(self,request, *args, **kwargs):
+        book_id = self.kwargs.get('pk')
+        book = BookStore.objects.get(pk=book_id)
+        token = get_token_from_request(self.request)
+
+        try:
+            decoded_token = auth.verify_id_token(token)
+            user_profile = Profile.objects.get(pk=decoded_token['uid'])
+            try:
+                like = BookStoreLikes.objects.get(book=book, profile=user_profile)
+            except:
+                return Response({"detail": "You haven't liked this book."}, status=400)
+
+            like.delete()
+            book.likes -=1
+            book.save()
+            return Response({"detail": "Book unliked successfully."}, status=200)
+        except:
+            return Response({"detail": "You haven't liked this book."}, status=400)
+
+
+
+
 
 
 

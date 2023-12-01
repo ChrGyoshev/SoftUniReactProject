@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backEnd.react_front_end.models import Profile, BookReadingList, BookStore
+from backEnd.react_front_end.models import Profile, BookReadingList, BookStore, BookStoreLikes
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -38,4 +38,10 @@ class BookStoreCatalogueSerializer(serializers.ModelSerializer):
     owner = ProfileSerializer()
     class Meta:
         model = BookStore
+        fields = "__all__"
+
+
+class BookStoreLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookStoreLikes
         fields = "__all__"

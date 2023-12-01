@@ -118,4 +118,15 @@ class BookStore(models.Model):
         max_length=500,
     )
 
+    likes = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        default=0,
+    )
+
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="books")
+
+
+class BookStoreLikes(models.Model):
+    book = models.ForeignKey(BookStore, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
