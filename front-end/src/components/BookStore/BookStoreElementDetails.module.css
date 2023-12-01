@@ -1,0 +1,99 @@
+.book-details-description::-webkit-scrollbar {
+    display: none;
+  }
+
+
+.book-details-wrapper {
+    width: 95%;
+    background: rgba(255, 255, 255, 0.63);
+    border: none;
+    border-radius: 14px;
+    margin: auto;
+    min-height: 70vh;
+
+}
+
+.book-details {
+    display: flex;
+    align-items: flex-start;
+}
+
+.book-details-text {
+    min-width: 65%;
+    max-width: 65%;
+}
+
+.book-details-title {
+    font-size: 2rem;
+}
+
+.book-details-image {
+    width: 70%;
+    height: 30%;
+    padding: 40px;
+}
+
+.book-details-image img {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: -1px -1px 20px 4px black
+}
+
+.book-details-author {
+    font-style: italic;
+}
+
+.book-details-description {
+    background-color: rgb(255 255 255 / 20%);
+    width: 85%;
+    height: 20vh;
+    border-radius: 7px;
+    overflow: scroll;
+    padding: .5em;
+
+
+    
+}
+
+.book-details-description .description {
+    line-height: 1.5;
+    font-size: 1.5rem;
+
+}
+
+.book-details-price-tag {
+    display: inline-block;
+    width: 300px;
+    background-color: rgb(255 255 255 / 20%);
+    padding: .5em;
+    
+    border-radius: 10px;
+    margin-top: 1em;
+    font-size: 2em;
+    
+}
+
+/* buttons  */
+
+.book-details-button-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.book-details-button-wrapper button, .book-details-button-wrapper a {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    width: 150px;
+    box-shadow: 0px 0px 6px #000000a6;
+}
+
+.book-details-button-wrapper button:hover, .book-details-button-wrapper a:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
