@@ -31,16 +31,18 @@ const NavBar = () => {
     profileHandler(element);
   };
 
-  const LogOut = () => {
-    signOut(auth)
-      .then(() => {
-        console.log(liRef);
+  const LogOut = async () => {
+    try {
+      await signOut(auth);
+
+      if (liRef.current) {
         liRef.current.classList.remove("active");
-        navigate("sign-in");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+
+      navigate("sign-in");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

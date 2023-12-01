@@ -144,7 +144,7 @@ class BookEdit(generics.RetrieveUpdateAPIView):
 class SingleElementPagination(PageNumberPagination):
     page_size = 6
 class BookStoreAdd(generics.ListCreateAPIView):
-    queryset = BookStore.objects.all()
+    queryset = BookStore.objects.all().order_by('id')
     serializer_class = BookStoreSerializer
     pagination_class =SingleElementPagination
 
@@ -159,3 +159,52 @@ class BookStoreAdd(generics.ListCreateAPIView):
             raise Exception('Profile not found')
 
         serializer.save(owner=profile)
+
+
+class BookStoreDeleteBook(generics.DestroyAPIView):
+    queryset = BookStore.objects.all()
+    serializer_class = BookStoreSerializer
+
+    def delete(self, request, *args, **kwargs):
+        token = get_token_from_request(self.request)
+        book = BookStore.objects.get(id= kwargs['pk'])
+
+        try:
+            decoded_token = auth.verify_id_token(token)
+            if book.owner.id == decoded_token['uid']:
+                return super().delete(request, *args, **kwargs)
+            else:
+                return  Response('not right user')
+        except:
+            return Response('Invalid token')
+
+
+class BookStoreEditBook(generics.UpdateAPIView):
+    queryset = BookStore.objects.all()
+    serializer_class = BookStoreSerializer
+
+    def patch(self, request, *args, **kwargs):
+        token = get_token_from_request(self.request)
+        book = BookStore.objects.get(id=kwargs['pk'])
+        try:
+            decoded_token = auth.verify_id_token(token)
+            if book.owner.id == decoded_token['uid']:
+                return super().patch(request, *args, **kwargs)
+            else:
+                return Response('not right user')
+        except:
+            return Response('Invalid token')
+
+
+
+
+
+
+
+
+
+
+
+
+
+

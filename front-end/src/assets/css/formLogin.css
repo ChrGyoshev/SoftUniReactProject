@@ -72,8 +72,12 @@ input:-webkit-autofill:active {
   text-align: center;
   position: relative;
   top: -1.5rem;
-  padding: 1em;
+  padding-top: 1em;
   
+}
+
+.remember-me label:hover {
+  cursor: pointer;
 }
 
 .login-box form a {
@@ -190,3 +194,23 @@ input {
   margin-bottom: 3em;
 }
 
+
+.forgoten-password  {
+  text-align: center;
+  padding-bottom: 1em;
+  font-family: Helvetica, sans-serif;
+  font-size: 12px !important;
+  border: none;
+}
+
+.forgoten-password button {
+  color: white;
+  background-color: transparent;
+  border: none;
+  padding-bottom :1em;
+}
+
+.forgoten-password button:hover {
+  cursor: pointer;
+  font-weight: bold;
+}

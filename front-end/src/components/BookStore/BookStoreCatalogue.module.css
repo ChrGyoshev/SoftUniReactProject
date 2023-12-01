@@ -10,8 +10,8 @@ a {
 }
 
 .gallery {
-
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   justify-items: center;
   flex-wrap: wrap;
@@ -24,13 +24,11 @@ a {
 .galleryInner {
   padding: 2em;
   margin: 0 auto;
-
 }
 
 .galleryInner {
-    width: 70%;
-    margin: 0 auto;
-   
+  width: 63rem;
+  margin: 0 auto;
 }
 
 .gallery-redirect-to-details {
@@ -39,6 +37,10 @@ a {
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  min-height: 438px;
+  justify-content: flex-end;
   flex-basis: 22%;
   min-width: 300px;
   margin: 15px;
@@ -310,4 +312,30 @@ h6 {
 .AddBookStore:hover {
   cursor: pointer;
   background: linear-gradient(180deg, #6ca9eb 0%, #367af6 100%);
+}
+
+.bookStoreBtns {
+  display: flex;
+  justify-content: end;
+  gap: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.bookStoreBtns i {
+  padding: 0px !important;
+}
+
+.trashCan {
+  margin-right: 1rem !important;
+}
+
+
+.NoBooksAvailable {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  font-size: 2rem;
+  font-family: Helvetica, sans-serif;
+  padding: 1em;
 }

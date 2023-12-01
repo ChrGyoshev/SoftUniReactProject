@@ -1,0 +1,11 @@
+.deleteBoxOverlay{
+    padding-top: 15%;
+}
+
+.deleteBoxIcon {
+    font-size: 1.2rem;
+}
+
+.book-store-btns {
+    display: flex;
+}

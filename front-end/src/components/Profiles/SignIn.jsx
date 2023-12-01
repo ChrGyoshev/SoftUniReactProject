@@ -7,6 +7,7 @@ import {
   setPersistence,
   browserSessionPersistence,
   browserLocalPersistence,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase";
 import GoogleButton from "react-google-button";
@@ -92,6 +93,17 @@ function YourComponent() {
 
   useClickOutside(errorBoxRef, resetErrors);
 
+  function forgottenPasswordHandler() {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        console.log("password reset email sent");
+        setErrors((prevData) => [...prevData, "password reset mail sent"]);
+      })
+      .catch((error) => {
+        setErrors((prevData) => [...prevData, error.message]);
+      });
+  }
+
   return (
     <>
       {errors.length > 0 ? (
@@ -143,6 +155,12 @@ function YourComponent() {
           <div className="remember-me">
             <label htmlFor="checkbox">Remember me</label>
             <input type="checkbox" id="checkbox" ref={remmemberMeRef} />
+          </div>
+
+          <div className="forgoten-password">
+            <button type="button" onClick={forgottenPasswordHandler}>
+              Forgotten Password
+            </button>
           </div>
 
           <div className="google-btn">

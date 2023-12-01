@@ -1,0 +1,22 @@
+.bookEditModular {
+    display: flex;
+    margin-top: 35vh;
+}
+
+.EditBookBtn {
+    padding: 12px 24px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+    margin: 10px auto;
+}
+
+.EditBookBtn:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: 1px solid black;
+    box-shadow: 2px 3px 20px 0px black;
+}

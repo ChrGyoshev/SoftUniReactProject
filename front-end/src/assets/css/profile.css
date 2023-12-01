@@ -114,6 +114,9 @@
     border-radius: 15px;
     font-size: 14px;
 }
+.profile-delete, .profile-cancel:hover {
+    cursor: pointer;
+}
 
 .profile-delete {
     background-color: #E12D39;

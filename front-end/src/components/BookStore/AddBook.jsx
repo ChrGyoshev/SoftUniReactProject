@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useUser } from "../UserContext";
 import useClickOutside from "../hooks/useClickOutside";
+import ErrorBox from "../ErrorsBox";
 
 export default function AddBookStore({ showForm, user, updatePage }) {
   const { token } = useUser();
@@ -61,23 +62,7 @@ export default function AddBookStore({ showForm, user, updatePage }) {
   return (
     <>
       {errors.length > 0 && (
-        <div className="overlay-errors">
-          <div className="error-box" ref={errorBoxRef}>
-            <button className="button-close-edit-profile" onClick={resetErrors}>
-              x
-            </button>
-            <h2>Something went wrong</h2>
-            <ul>
-              {errors.map((error, index) => (
-                <li key={index}>
-                  {" "}
-                  <i className="fa-solid fa-triangle-exclamation"></i>
-                  {error}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
       )}
       <div className="overlay" onClick={showForm}></div>
       <div className="modular">
