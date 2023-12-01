@@ -7,6 +7,7 @@ const ElementDetails = () => {
   const [bookData, setBookData] = useState("");
   const BASE_URL = `http://localhost:8000/api/book-store/${id}/`;
   const navigate = useNavigate();
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     fetch(BASE_URL)

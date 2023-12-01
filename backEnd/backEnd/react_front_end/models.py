@@ -9,7 +9,9 @@ def phone_regex_validator(value):
         raise ValidationError("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 
 
-
+def validate_positive_float(value):
+    if value is not None and value <= 0:
+        raise ValidationError('Price must be a valid float field.')
 
 
 # Profiles
@@ -107,7 +109,8 @@ class BookStore(models.Model):
         null=True,
     )
 
-    price = models.PositiveIntegerField(
+    price = models.FloatField(
+        validators=[validate_positive_float,],
 
     )
 
