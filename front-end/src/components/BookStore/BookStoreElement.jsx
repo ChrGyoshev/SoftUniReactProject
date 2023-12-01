@@ -66,7 +66,7 @@ export default function BookStoreSingleBookElement({
               </Link>
             </div>
             <div className={styles.buyNow}>
-              <Link to="sing-in">
+              <Link to={`/catalogue/book-store/buy/${book.id}`}>
                 <button>Buy Now</button>
               </Link>
             </div>

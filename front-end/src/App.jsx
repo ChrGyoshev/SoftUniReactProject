@@ -9,6 +9,7 @@ import BookList from "./components/BookReadingCatalogue/BookReadingList";
 import BookStoreCatalogue from "./components/BookStore/BookStoreCatalogue";
 import AddBookStore from "./components/BookStore/AddBook";
 import ElementDetails from "./components/BookStore/BookStoreElementDetails";
+import BuyBook from "./components/BookStore/BuyBook";
 import { Route, Routes } from "react-router-dom";
 import { UserProvider } from "./components/UserContext";
 
@@ -39,6 +40,7 @@ function App() {
               path="/catalogue/book-store/details/:id"
               element={<ElementDetails />}
             />
+            <Route path="/catalogue/book-store/buy/:id" element={<BuyBook />} />
           </Routes>
         </UserProvider>
       </section>

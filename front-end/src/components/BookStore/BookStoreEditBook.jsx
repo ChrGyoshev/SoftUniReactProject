@@ -1,5 +1,4 @@
 import styles from "./BookStoreEditBook.module.css";
-import ErrorBox from "../ErrorsBox";
 import { useState } from "react";
 import { useUser } from "../UserContext";
 

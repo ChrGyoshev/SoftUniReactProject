@@ -1,0 +1,49 @@
+.buy-book-confirmation, .buy-book-done {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 2rem;
+    
+}
+.buy-book-article {
+    background-color: white;
+}
+
+.buy-book-confirmation p {
+    font-family: Helvetica, sans-serif;
+    font-size: 1.5rem;
+}
+
+.buy-book-confirmation button {
+    padding: 12px 24px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+    margin: 10px auto;
+}
+
+.buy-book-confirmation button:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    border: 1px solid black;
+    box-shadow: 2px 3px 20px 0px black;
+}
+
+/* BUY BOOK DONE */
+.buy-book-done p {
+    font-size: 2rem;
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.buy-book-done img {
+    width: 70%;
+}

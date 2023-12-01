@@ -191,10 +191,21 @@ class BookStoreDeleteBook(generics.DestroyAPIView):
             if book.owner.id == decoded_token['uid']:
                 return super().delete(request, *args, **kwargs)
             else:
-                return  Response('not right user')
+                return Response('not right user')
         except:
             return Response('Invalid token')
 
+class BookStoreBuyBook(generics.DestroyAPIView):
+    queryset = BookStore.objects.all()
+    serializer_class = BookStoreSerializer
+
+    def delete(self, request, *args, **kwargs):
+        token = get_token_from_request(self.request)
+        try:
+            decoded_token = auth.verify_id_token(token)
+            return super().delete(request,*args,**kwargs)
+        except:
+            return Response('invalid token')
 
 class BookStoreEditBook(generics.UpdateAPIView):
     queryset = BookStore.objects.all()
