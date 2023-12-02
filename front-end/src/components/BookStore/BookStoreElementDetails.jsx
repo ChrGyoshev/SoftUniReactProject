@@ -41,7 +41,6 @@ const ElementDetails = () => {
         return response.json();
       })
       .then((result) => {
-       
         setIsLiked(result.isLiked);
       })
       .catch((error) => console.log(error));
@@ -49,6 +48,8 @@ const ElementDetails = () => {
 
   const toggleLike = (e) => {
     e.preventDefault();
+    const btn = e.target.textContent.slice(0, -1);
+
     fetch(LIKE_URL, {
       method: isLiked ? "DELETE" : "POST",
       headers: {
@@ -63,10 +64,10 @@ const ElementDetails = () => {
 
         return response.json();
       })
-      .then((result) => {
+      .then(() => {
         setIsLiked(!isLiked);
         setTotalLikes((prevTotalLikes) =>
-          isLiked ? Number(prevTotalLikes) - 1 : Number(prevTotalLikes) + 1
+          isLiked ? (prevTotalLikes) - 1 : (prevTotalLikes) + 1
         );
       })
       .catch((error) => console.log(error));
@@ -79,7 +80,21 @@ const ElementDetails = () => {
           <div className={styles["book-details-image"]}>
             <img src={bookData.cover} alt="" />
           </div>
+
           <article className={styles["book-details-text"]}>
+            <div className={styles["like-btn-wrapper"]}>
+              <button
+                className={`${styles["likes-btn"]} ${
+                  isLiked ? styles.active : ""
+                }`}
+                onClick={toggleLike}
+              >
+                <i className="fa fa-heart"></i>
+                {isLiked ? "Unlike" : "Like"}
+                <span>{totalLikes}</span>
+              </button>
+            </div>
+
             <h1 className={styles["book-details-title"]}>{bookData.title}</h1>
             <h2 className={styles["book-details-author"]}>{bookData.author}</h2>
             <div className={styles["book-details-description"]}>
@@ -93,6 +108,7 @@ const ElementDetails = () => {
               <h1 className={styles["book-details-price-tag"]}>
                 {`Price: ${bookData.price} лв`}
               </h1>
+
               <article className={styles["book-details-button-wrapper"]}>
                 <div>
                   <button>Buy now</button>
@@ -101,10 +117,6 @@ const ElementDetails = () => {
                   <button onClick={() => navigate(-1)}>Cancel</button>
                 </div>
               </article>
-              <button onClick={toggleLike}>
-                {isLiked ? "Unlike" : "Like"}
-              </button>
-              <span>Total Likes: {Number(totalLikes)}</span>
             </article>
           </article>
         </article>

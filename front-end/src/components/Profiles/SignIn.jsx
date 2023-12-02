@@ -12,6 +12,7 @@ import {
 import { auth, googleProvider } from "../../firebase";
 import GoogleButton from "react-google-button";
 import useClickOutside from "../hooks/useClickOutside";
+import ErrorBox from "../ErrorsBox";
 
 function YourComponent() {
   const inputOne = useRef(null);
@@ -106,21 +107,9 @@ function YourComponent() {
 
   return (
     <>
-      {errors.length > 0 ? (
-        <div className="overlay-errors">
-          <div className="error-box" ref={errorBoxRef}>
-            <button className="button-close-edit-profile" onClick={resetErrors}>
-              x
-            </button>
-            <h2>Something went wrong</h2>
-            <ul>
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ) : null}
+      {errors.length > 0 && (
+        <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
+      )}
 
       <div className="login-box sign-up-box">
         <h2>Sign In</h2>
