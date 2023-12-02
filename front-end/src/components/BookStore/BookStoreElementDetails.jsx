@@ -5,7 +5,7 @@ import { useUser } from "../UserContext";
 
 const ElementDetails = () => {
   const { id } = useParams();
-  const { user, token } = useUser();
+  const { token } = useUser();
   const [bookData, setBookData] = useState("");
   const BASE_URL = `http://localhost:8000/api/book-store/${id}/`;
   const LIKE_URL = `http://localhost:8000/api/book-store/like/${id}/`;
@@ -24,6 +24,25 @@ const ElementDetails = () => {
 
       .then((result) => {
         setBookData(result);
+        setTotalLikes(result.likes);
+      })
+      .catch((error) => console.log(error));
+
+    fetch(`http://localhost:8000/api/book-store/like-list/${id}/`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Request failed: ${response.message}`);
+        }
+        return response.json();
+      })
+      .then((result) => {
+       
+        setIsLiked(result.isLiked);
       })
       .catch((error) => console.log(error));
   }, []);

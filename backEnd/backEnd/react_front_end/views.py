@@ -232,9 +232,25 @@ class GetLikedBookView(generics.RetrieveAPIView):
     serializer_class = BookStoreSerializer
 
     def get(self, request, *args, **kwargs):
+        token =get_token_from_request(self.request)
+        decoded_token = auth.verify_id_token(token)
+
         book = self.get_object()
+        profile = Profile.objects.get(pk=decoded_token['uid'])
+        is_liked = BookStoreLikes.objects.filter(book=book, profile=profile).exists()
         serializer = self.get_serializer(book)
-        return Response(serializer.data)
+
+        serializer_data = serializer.data
+        serializer_data['isLiked'] = is_liked
+
+        return Response(serializer_data, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
 class LikeBookView(generics.GenericAPIView):
     serializer_class = BookStoreLikeSerializer
 
