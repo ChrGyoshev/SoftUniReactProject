@@ -18,8 +18,8 @@ function App() {
   return (
     <>
       <section className="page-wrapper">
-        <NavBar />
         <UserProvider>
+          <NavBar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -28,9 +28,18 @@ function App() {
             <Route path="/profile-details" element={<ProfileDetails />} />
             <Route path="/profile-delete" element={<DeleteProfile />} />
             <Route path="/catalogue/book-list" element={<BookList />} />
-            <Route path="/catalogue/book-store/:page" element={<BookStoreCatalogue />} />
-            <Route path="/catalogue/book-store/add" element={<AddBookStore />} />
-            <Route path="/catalogue/book-store/details/:id" element={<ElementDetails />}/>
+            <Route
+              path="/catalogue/book-store/:page"
+              element={<BookStoreCatalogue />}
+            />
+            <Route
+              path="/catalogue/book-store/add"
+              element={<AddBookStore />}
+            />
+            <Route
+              path="/catalogue/book-store/details/:id"
+              element={<ElementDetails />}
+            />
             <Route path="/catalogue/book-store/buy/:id" element={<BuyBook />} />
           </Routes>
         </UserProvider>

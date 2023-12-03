@@ -1,48 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { HideNavBar } from "../assets/js/HideNavbar";
-import { auth } from "../firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
 import { profileHandler } from "../assets/js/DropDownBtns";
+import { useUser } from "./UserContext";
+import LogOut from "./Profiles/LogOut";
 
 const NavBar = () => {
-  const [user, setUser] = useState(null);
-  let navigate = useNavigate();
-  let liRef = useRef("");
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-        console.log("logged in");
-      } else {
-        console.log("logged out");
-
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const { user } = useUser();
 
   const handlerDropDownBtns = (e) => {
     let element = e.currentTarget;
-
     profileHandler(element);
-  };
-
-  const LogOut = async () => {
-    try {
-      await signOut(auth);
-
-      if (liRef.current) {
-        liRef.current.classList.remove("active");
-      }
-
-      navigate("sign-in");
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -69,18 +36,18 @@ const NavBar = () => {
             </li>
 
             {user ? (
-              <li className="lia" onClick={handlerDropDownBtns} ref={liRef}>
-                <span className="li">Profile </span>
-                <Link to={"profile-details"}>
-                  <span className="profile-btns">
-                    Details <i className="fa-regular fa-user nav-user-ico"></i>
-                  </span>
-                </Link>
-                <span className="profile-btns" onClick={LogOut}>
-                  LogOut
-                  <i className="fa-solid fa-arrow-right-from-bracket nav-user-ico"></i>
-                </span>
-              </li>
+              <>
+                <li className="lia" onClick={handlerDropDownBtns}>
+                  <span className="li">Profile </span>
+                  <Link to={"profile-details"}>
+                    <span className="profile-btns">
+                      Details{" "}
+                      <i className="fa-regular fa-user nav-user-ico"></i>
+                    </span>
+                  </Link>
+                  <LogOut />
+                </li>
+              </>
             ) : (
               <li className="lia" onClick={handlerDropDownBtns}>
                 <span className="li">Sign</span>
