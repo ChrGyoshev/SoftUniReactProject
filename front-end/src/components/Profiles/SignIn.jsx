@@ -17,12 +17,12 @@ import ErrorBox from "../ErrorsBox";
 function YourComponent() {
   const inputOne = useRef(null);
   const iconOne = useRef(null);
+  const errorBoxRef = useRef(null);
+  const remmemberMeRef = useRef(null);
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const errorBoxRef = useRef(null);
-  const remmemberMeRef = useRef(null);
 
   const handleClick = (...clickedRef) => {
     const [input, ico] = clickedRef;

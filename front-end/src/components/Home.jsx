@@ -1,6 +1,6 @@
 import logo from "../assets/pictures/logo.png";
 
-const App = () => {
+const Home = () => {
   return (
     <div className="image-container">
       <h1 className="site-slogan">
@@ -14,4 +14,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;
