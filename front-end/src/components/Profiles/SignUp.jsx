@@ -4,30 +4,37 @@ import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import useClickOutside from "../hooks/useClickOutside";
+import ErrorBox from "../ErrorsBox";
 
 const SignUp = () => {
-  const inputOne = useRef(null);
-  const iconOne = useRef(null);
-  const inputTwo = useRef(null);
-  const iconTwo = useRef(null);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const passwordInputField = useRef(null);
+  const passwordConfirmInput = useRef(null);
+  const passwordShowHideIcon = useRef(null);
+  const passwordConfirmIcon = useRef(null);
+
+  const [errors, setErrors] = useState([]);
   const errorBoxRef = useRef(null);
   let navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const formChangeHandler = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const Submitting = async (e) => {
     e.preventDefault();
     const url = "http://127.0.0.1:8000/api";
 
-    if (password === confirmPassword) {
+    if (formData.password === formData.confirmPassword) {
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
-          email,
-          password
+          formData.email,
+          formData.password
         );
 
         const postData = {
@@ -46,21 +53,23 @@ const SignUp = () => {
         if (response.ok) {
           navigate("/");
         } else {
-          console.error("POST request to Django failed");
+          setErrors((prevErrors) => [
+            ...prevErrors,
+            "POST request to Django failed",
+          ]);
         }
       } catch (error) {
-        console.log("Firebase authentication error:", error.message);
         setErrors((prevErrors) => [...prevErrors, error.message]);
-        console.log(auth.currentUser.delete());
+        auth.currentUser.delete();
       }
     } else {
       setErrors((prevErrors) => [...prevErrors, "Passwords did not match!"]);
     }
   };
 
-  const handleClick = (...clickedRef) => {
-    const [input, ico] = clickedRef;
-    ShowPassword(input, ico);
+  const showHidePasswordHandler = (...clickedRef) => {
+    const [input, icon] = clickedRef;
+    ShowPassword(input, icon);
   };
 
   const resetErrors = () => {
@@ -71,21 +80,10 @@ const SignUp = () => {
 
   return (
     <>
-      {errors.length > 0 ? (
-        <div className="overlay-errors">
-          <div className="error-box" ref={errorBoxRef}>
-            <button className="button-close-edit-profile" onClick={resetErrors}>
-              x
-            </button>
-            <h2>Something went wrong</h2>
-            <ul>
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ) : null}
+      {errors.length > 0 && (
+        <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
+      )}
+
       <div className="login-box sign-up-box">
         <h2>Sign Up</h2>
 
@@ -94,42 +92,59 @@ const SignUp = () => {
             <input
               type="text"
               name="email"
+              id="email"
               autoFocus
               autoCapitalize="none"
               autoComplete="email"
               maxLength={254}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={formChangeHandler}
+              value={formData.email}
             />
+
             <label>Email</label>
           </div>
-
           <div className="user-box">
             <i
               className="fa-regular fa-eye"
-              onClick={() => handleClick(inputOne, inputTwo)}
-              ref={inputTwo}
+              onClick={() =>
+                showHidePasswordHandler(
+                  passwordInputField,
+                  passwordShowHideIcon
+                )
+              }
+              ref={passwordShowHideIcon}
             ></i>
             <input
               type="password"
+              name="password"
+              value={formData.password}
               className="password"
-              ref={inputOne}
-              onChange={(e) => setPassword(e.target.value)}
+              ref={passwordInputField}
+              onChange={formChangeHandler}
             />
+
             <label>Password</label>
           </div>
-
           <div className="user-box">
             <i
               className="fa-regular fa-eye"
-              onClick={() => handleClick(iconOne, iconTwo)}
-              ref={iconTwo}
+              onClick={() =>
+                showHidePasswordHandler(
+                  passwordConfirmInput,
+                  passwordConfirmIcon
+                )
+              }
+              ref={passwordConfirmIcon}
             ></i>
             <input
               type="password"
               className="password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              ref={iconOne}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={formChangeHandler}
+              ref={passwordConfirmInput}
             />
+
             <label>Confirm Password</label>
           </div>
 
