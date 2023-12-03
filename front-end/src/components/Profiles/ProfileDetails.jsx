@@ -6,7 +6,7 @@ import EditProfile from "./EditProfile";
 const ProfileDetails = () => {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState("");
-  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showEditProfileModular, setShowEditProfileModular] = useState(false);
   const ProfileCard = useRef(null);
 
   useEffect(() => {
@@ -32,7 +32,6 @@ const ProfileDetails = () => {
           }
           const data = await response.json();
           setProfile(data);
-          console.log(data);
         } catch (error) {
           console.error(error);
         }
@@ -42,14 +41,13 @@ const ProfileDetails = () => {
     fetchData();
   }, [user]);
 
-  function ShowEditProfileHandler() {
-    setShowEditProfile(!showEditProfile);
+  function ShowEditProfileModular() {
+    setShowEditProfileModular(!showEditProfileModular);
     ProfileCard.current.style.display =
       ProfileCard.current.style.display === "none" ? "flex" : "none";
   }
 
   function handleFormSubmit(formData) {
-    console.log(formData);
     setProfile((prevProfile) => ({
       ...prevProfile,
       ...formData,
@@ -58,12 +56,8 @@ const ProfileDetails = () => {
 
   return (
     <>
-      {showEditProfile && (
-        <EditProfile
-          showProfile={ShowEditProfileHandler}
-          onFormSubmit={handleFormSubmit}
-          userId={user.uid}
-        />
+      {showEditProfileModular && (
+        <EditProfile {...{ ShowEditProfileModular, handleFormSubmit }} />
       )}
 
       <div className="profile-card" ref={ProfileCard}>
@@ -73,7 +67,7 @@ const ProfileDetails = () => {
           </Link>
         </span>
 
-        <span className="edit-profile" onClick={ShowEditProfileHandler}>
+        <span className="edit-profile" onClick={ShowEditProfileModular}>
           <i className="fa-solid fa-user-pen"></i>
         </span>
         <div className="profile-image">

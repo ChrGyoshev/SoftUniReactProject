@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useUser } from "./../UserContext";
 
-const EditProfile = ({ showProfile, onFormSubmit, userId }) => {
+const EditProfile = ({ ShowEditProfileModular, handleFormSubmit }) => {
+  const { user } = useUser();
+
   const [formData, setFormData] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
-  const BaseUrl = `http://127.0.0.1:8000/api/edit/${userId}/`;
+  const BaseUrl = `http://127.0.0.1:8000/api/edit/${user.uid}/`;
   const { token } = useUser();
 
   const handleInputChange = (e) => {
@@ -58,24 +60,27 @@ const EditProfile = ({ showProfile, onFormSubmit, userId }) => {
 
         setFormData(await response.json());
 
-        onFormSubmit(formData);
+        handleFormSubmit(formData);
       } catch (error) {
         console.error(error);
       }
     };
 
     patch().then(() => {
-      showProfile();
+      ShowEditProfileModular();
     });
   };
 
   return (
     <>
-      <div className="overlay" onClick={showProfile}></div>
+      <div className="overlay" onClick={ShowEditProfileModular}></div>
 
       <div className="modular">
         <section className="form-edit-profile">
-          <button className="button-close-edit-profile" onClick={showProfile}>
+          <button
+            className="button-close-edit-profile"
+            onClick={ShowEditProfileModular}
+          >
             x
           </button>
           <h1>Edit Profile</h1>

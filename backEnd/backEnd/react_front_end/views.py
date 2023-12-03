@@ -83,6 +83,8 @@ class ProfileEdit(generics.RetrieveUpdateAPIView):
         token = get_token_from_request(self.request)
         try:
             decoded_token = auth.verify_id_token(token)
+
+
             return super().patch(request, *args, **kwargs)
         except:
             return Response({"error": "Invalid token"}, status=400)
