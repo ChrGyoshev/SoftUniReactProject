@@ -1,19 +1,13 @@
 import { useState } from "react";
-const EditSingleBook = ({
-  showForm,
-  bookId,
-  updateBooksOnPatch,
-  books,
-  token,
-}) => {
+const EditSingleBook = ({showForm, bookId, updateBooksOnPatch, books,token, }) => {
   const BASE_URL = `http://localhost:8000/api/book-reading-list/edit/${bookId}/`;
   const specificBook = books.find((book) => book.id === bookId);
 
   const [formData, setFormData] = useState({
-    title: specificBook.title !== null ? specificBook.title : "",
-    author: specificBook.author !== null ? specificBook.author : "",
-    cover: specificBook.cover !== null ? specificBook.cover : "",
-    pages: specificBook.pages !== null ? specificBook.pages : "",
+    title: specificBook.title ?? "",
+    author: specificBook.author ?? "",
+    cover: specificBook.cover ?? "",
+    pages: specificBook.pages ?? 0,
   });
 
   function inputChangeHandler(e) {
@@ -25,12 +19,6 @@ const EditSingleBook = ({
 
   function SubmitHandler(e) {
     e.preventDefault();
-    const submitData = Object.fromEntries(
-      Object.entries(formData).filter(
-        ([key, value]) =>
-          key !== "" && value !== "" && (key !== "pages" || !isNaN(value))
-      )
-    );
 
     fetch(BASE_URL, {
       method: "PATCH",
@@ -38,7 +26,7 @@ const EditSingleBook = ({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(submitData),
+      body: JSON.stringify(formData),
     })
       .then((response) => {
         if (!response.ok) {

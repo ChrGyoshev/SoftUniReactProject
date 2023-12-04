@@ -128,21 +128,23 @@ export default function BookStoreCatalogue() {
           {...{ bookData, user, EditBookHandler, PageRender }}
         />
       </div>
-      <div className={styles.paginator}>
-        <button
-          onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-          disabled={!bookData.previous}
-        >
-          Previous
-        </button>
+      {bookData.count > 6 && (
+        <div className={styles.paginator}>
+          <button
+            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+            disabled={!bookData.previous}
+          >
+            Previous
+          </button>
 
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={!bookData.next}
-        >
-          Next
-        </button>
-      </div>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={!bookData.next}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   );
 }

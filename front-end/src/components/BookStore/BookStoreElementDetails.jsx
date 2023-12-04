@@ -48,7 +48,7 @@ const ElementDetails = () => {
 
   const toggleLike = (e) => {
     e.preventDefault();
-    const btn = e.target.textContent.slice(0, -1);
+    // const btn = e.target.textContent.slice(0, -1);
 
     fetch(LIKE_URL, {
       method: isLiked ? "DELETE" : "POST",
@@ -67,7 +67,7 @@ const ElementDetails = () => {
       .then(() => {
         setIsLiked(!isLiked);
         setTotalLikes((prevTotalLikes) =>
-          isLiked ? (prevTotalLikes) - 1 : (prevTotalLikes) + 1
+          isLiked ? prevTotalLikes - 1 : prevTotalLikes + 1
         );
       })
       .catch((error) => console.log(error));
@@ -110,9 +110,10 @@ const ElementDetails = () => {
               </h1>
 
               <article className={styles["book-details-button-wrapper"]}>
-                <div>
-                  <button>Buy now</button>
-                </div>
+                <Link to={`/catalogue/book-store/buy/${bookData.id}`}>
+                  <span>Buy now</span>
+                </Link>
+
                 <div>
                   <button onClick={() => navigate(-1)}>Cancel</button>
                 </div>

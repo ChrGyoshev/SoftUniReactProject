@@ -2,7 +2,7 @@
 import firebase_admin
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from rest_framework import status, generics, request
+from rest_framework import status, generics, request, serializers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -83,12 +83,16 @@ class ProfileEdit(generics.RetrieveUpdateAPIView):
         token = get_token_from_request(self.request)
         try:
             decoded_token = auth.verify_id_token(token)
+            serializer = self.get_serializer(instance=self.get_object(), data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
 
-
-            return super().patch(request, *args, **kwargs)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except serializers.ValidationError as e:
+            return Response({"errors": e.detail}, status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response({"error": "Invalid token"}, status=400)
 
+            return Response({"error": "Invalid token or form data"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # BOOK READING LIST VIEWS

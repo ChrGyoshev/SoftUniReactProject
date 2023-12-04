@@ -2,13 +2,18 @@ import { auth } from "../../firebase";
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import EditProfile from "./EditProfile";
+import ErrorBox from "../ErrorsBox";
+import useClickOutside from "../hooks/useClickOutside";
 
 const ProfileDetails = () => {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState("");
   const [showEditProfileModular, setShowEditProfileModular] = useState(false);
   const ProfileCard = useRef(null);
+  const [errors, setErrors] = useState([]);
+  const errorBoxRef = useRef();
 
+  
   useEffect(() => {
     if (auth.currentUser !== null) {
       setUser(auth.currentUser);
@@ -41,6 +46,11 @@ const ProfileDetails = () => {
     fetchData();
   }, [user]);
 
+  
+  function handleErrors(error) {
+    setErrors(error);
+  }
+
   function ShowEditProfileModular() {
     setShowEditProfileModular(!showEditProfileModular);
     ProfileCard.current.style.display =
@@ -54,10 +64,26 @@ const ProfileDetails = () => {
     }));
   }
 
+  const resetErrors = () => {
+    setErrors([]);
+  };
+
+  useClickOutside(errorBoxRef, resetErrors);
+
   return (
     <>
+      {errors.length > 0 && (
+        <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
+      )}
       {showEditProfileModular && (
-        <EditProfile {...{ ShowEditProfileModular, handleFormSubmit }} />
+        <EditProfile
+          {...{
+            ShowEditProfileModular,
+            handleFormSubmit,
+            profile,
+            handleErrors,
+          }}
+        />
       )}
 
       <div className="profile-card" ref={ProfileCard}>

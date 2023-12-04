@@ -1,26 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
-import { getLoggedUser } from "../../firebase";
 import { useState, useEffect } from "react";
 import { useUser } from "./../UserContext";
 
 const DeleteProfile = () => {
-  const [user, setUser] = useState("");
-  const [url, setUrl] = useState("");
+  const { user, token } = useUser();
+  const [baseUrl, setBaseUrl] = useState("");
   const [deleted, setDeleted] = useState(false);
   let navigate = useNavigate();
-  const { token } = useUser();
 
   useEffect(() => {
-    setUser(getLoggedUser());
+    setBaseUrl(`http://127.0.0.1:8000/api/delete/${user.uid}/`);
   }, []);
-
-  useEffect(() => {
-    setUrl(`http://127.0.0.1:8000/api/delete/${user.uid}/`);
-  }, [user, url]);
 
   async function deleteHandler() {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(baseUrl, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -30,11 +24,10 @@ const DeleteProfile = () => {
 
       if (response.ok) {
         user.delete();
-        console.log("delete was successful");
         setDeleted(true);
         setTimeout(() => {
           navigate("/");
-        }, 2000);
+        }, 2500);
       } else {
         console.error("delete request failed");
       }

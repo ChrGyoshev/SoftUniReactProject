@@ -1,30 +1,19 @@
 import { useState, useEffect, useRef } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import DeleteBook from "./BookReadingDelete";
 import BookReadingSingle from "./BookReadingAdd";
 import EditSingleBook from "./BookReadingEdit";
+import { useUser } from "../UserContext";
 
 const BookList = () => {
-  const [user, setUser] = useState("");
+  const { user, token } = useUser();
   const [books, setBooks] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editBook, setEditBook] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
   const [selectedBookId, setSelectedBookId] = useState();
-  const [token, setToken] = useState();
 
   const tableElement = useRef();
   const bookBtns = useRef();
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setUser(user);
-        setToken(await user.getIdToken());
-      }
-    });
-  }, []);
 
   useEffect(() => {
     const BASEURL = `http://localhost:8000/api/books-by-user?profile=${user.uid}`;
@@ -36,7 +25,7 @@ const BookList = () => {
         return response.json();
       })
       .then((data) => {
-        setBooks((oldData) => [...oldData, ...data]);
+        setBooks(data);
       })
       .catch((error) => {
         console.error(error);
@@ -53,15 +42,14 @@ const BookList = () => {
 
   // Adding Book Modular
   function addBookHandler() {
-    if (books.length > 0) {
-      setShowForm(!showForm);
+    setShowForm(!showForm);
+    if (tableElement.current) {
       tableElement.current.style.display =
         tableElement.current.style.display === "none" ? "block" : "none";
-
+    }
+    if (bookBtns.current) {
       bookBtns.current.style.display =
         bookBtns.current.style.display === "none" ? "flex" : "none";
-    } else {
-      setShowForm(!showForm);
     }
   }
 
@@ -74,30 +62,6 @@ const BookList = () => {
     bookBtns.current.style.display =
       bookBtns.current.style.display === "none" ? "flex" : "none";
   }
-
-  // Makes request to delete book
-  function deleteBookHandler(e) {
-    const bookId = Number(e.currentTarget.getAttribute("profile"));
-    const deleteURL = `http://localhost:8000/api/books-reading-list/delete/${bookId}/`;
-
-    fetch(deleteURL, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          // If the deletion was successful, update the state by removing the deleted book
-          setBooks((oldData) => oldData.filter((book) => book.id !== bookId));
-        } else {
-          console.log("Failed to delete book");
-        }
-      })
-      .catch((error) => console.error(error));
-  }
-
-  // Makes request to edit selected book status
 
   async function patchBookStatus(bookId, newStatus) {
     fetch(`http://localhost:8000/api/book-reading-list/edit/${bookId}/`, {
@@ -113,7 +77,6 @@ const BookList = () => {
   }
 
   function UpdateBooks(newBooks) {
-      
     setBooks((oldData) => [...oldData, newBooks]);
   }
 
@@ -210,11 +173,7 @@ const BookList = () => {
                       <td>{book.author}</td>
                       <td>{book.pages}</td>
                       <td>
-                        <i
-                          className="fa-solid fa-trash-can"
-                          onClick={deleteBookHandler}
-                          profile={book.id}
-                        ></i>
+                        <DeleteBook {...{ token, setBooks, bookID: book.id }} />
                         <i
                           className="fa-solid fa-pen-to-square"
                           bookid={book.id}

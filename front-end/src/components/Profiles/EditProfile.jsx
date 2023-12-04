@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useUser } from "./../UserContext";
 
-const EditProfile = ({ ShowEditProfileModular, handleFormSubmit }) => {
-  const { user } = useUser();
+const EditProfile = ({ShowEditProfileModular, handleFormSubmit, profile,handleErrors,}) => {
+  const { user, token } = useUser();
+  const [formData, setFormData] = useState({
+    username: profile.username ?? "",
+    phone_number: profile.phone_number ?? "",
+    gender: "",
+  });
 
-  const [formData, setFormData] = useState({});
   const [selectedFile, setSelectedFile] = useState(null);
   const BaseUrl = `http://127.0.0.1:8000/api/edit/${user.uid}/`;
-  const { token } = useUser();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +26,8 @@ const EditProfile = ({ ShowEditProfileModular, handleFormSubmit }) => {
     }
   };
 
-  const removePicture = () => {
+  const removePicture = (e) => {
+    e.preventDefault();
     setFormData((prevData) => ({
       ...prevData,
       profile_picture: "",
@@ -33,42 +37,45 @@ const EditProfile = ({ ShowEditProfileModular, handleFormSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const newData = new FormData();
-    for (const key in formData) {
-      if (formData.hasOwnProperty(key)) {
-        newData.append(key, formData[key]);
-      }
-    }
+
+    Object.entries(formData).forEach(([key, value]) => {
+      newData.append(key, value);
+    });
+
     if (selectedFile) {
       newData.append("profile_picture", selectedFile);
     }
 
-    const patch = async () => {
-      try {
-        const response = await fetch(BaseUrl, {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: newData,
-        });
-
+    fetch(BaseUrl, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: newData,
+    })
+      .then((response) => {
         if (!response.ok) {
-          throw new Error(response.status);
+          return response.json().then((errorData) => {
+            Object.keys(errorData.errors).forEach((field) => {
+              const errorMsgs = errorData.errors[field];
+              handleErrors(errorMsgs);
+            });
+
+            throw new Error(response.status);
+          });
         }
 
-        setFormData(await response.json());
-
-        handleFormSubmit(formData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    patch().then(() => {
-      ShowEditProfileModular();
-    });
+        return response.json();
+      })
+      .then((responseData) => {
+        setFormData(responseData);
+        handleFormSubmit(responseData);
+        ShowEditProfileModular();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -83,17 +90,19 @@ const EditProfile = ({ ShowEditProfileModular, handleFormSubmit }) => {
           >
             x
           </button>
+
           <h1>Edit Profile</h1>
+
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username:</label>
             <input
               type="text"
               id="username"
               name="username"
-              placeholder="Enter username"
               onChange={handleInputChange}
+              value={formData.username}
+              placeholder="Enter username"
             />
-
             <label htmlFor="phone_number">Phone Number:</label>
             <input
               type="text"
@@ -101,6 +110,7 @@ const EditProfile = ({ ShowEditProfileModular, handleFormSubmit }) => {
               id="phone_number"
               placeholder="Enter phone number"
               onChange={handleInputChange}
+              value={formData.phone_number}
             />
             <label htmlFor="">Upload Profile Picture:</label>
             <input
@@ -109,7 +119,12 @@ const EditProfile = ({ ShowEditProfileModular, handleFormSubmit }) => {
               onChange={handleFileChange}
             />
             <label htmlFor="gender">Gender:</label>
-            <select id="gender" name="gender" onChange={handleInputChange}>
+            <select
+              id="gender"
+              name="gender"
+              onChange={handleInputChange}
+              value={formData.gender}
+            >
               <option value="">----</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
