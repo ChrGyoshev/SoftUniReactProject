@@ -110,13 +110,18 @@ const ElementDetails = () => {
               </h1>
 
               <article className={styles["book-details-button-wrapper"]}>
-                <Link to={`/catalogue/book-store/buy/${bookData.id}`}>
-                  <span>Buy now</span>
-                </Link>
+                <button
+                  onClick={() =>
+                    navigate(`/catalogue/book-store/buy/${bookData.id}`)
+                  }
+                >
+                  Buy now
+                </button>
 
                 <div>
                   <button onClick={() => navigate(-1)}>Cancel</button>
                 </div>
+                <div></div>
               </article>
             </article>
           </article>

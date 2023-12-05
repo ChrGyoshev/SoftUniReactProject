@@ -24,7 +24,7 @@ export default function BuyBook() {
         }
         setIsBuyed(true);
         setTimeout(() => {
-          navigate(-1);
+          navigate("/catalogue/book-store/1");
         }, 4000);
       })
       .catch((error) => console.log(error));
@@ -49,6 +49,7 @@ export default function BuyBook() {
             <div className={styles["buy-book-confirmation"]}>
               <p>Are you sure you want to buy this book?</p>
               <button onClick={buyHandler}>confirm</button>
+              <button onClick={() => navigate(-1)}>Cancel</button>
             </div>
           )}
         </article>
