@@ -175,6 +175,7 @@ class BookStoreCatalogue(generics.ListCreateAPIView):
     serializer_class = BookStoreCatalogueSerializer
     pagination_class = SingleElementPagination
 
+
 class BookStoreAdd(generics.ListCreateAPIView):
     queryset = BookStore.objects.all().order_by('id')
     serializer_class = BookStoreSerializer
@@ -191,7 +192,6 @@ class BookStoreAdd(generics.ListCreateAPIView):
             raise Exception('Profile not found')
 
         serializer.save(owner=profile)
-
 
 
 class BookStoreDeleteBook(generics.DestroyAPIView):
@@ -223,6 +223,7 @@ class BookStoreBuyBook(generics.DestroyAPIView):
         except:
             return Response('invalid token')
 
+
 class BookStoreEditBook(generics.UpdateAPIView):
     queryset = BookStore.objects.all()
     serializer_class = BookStoreSerializer
@@ -238,7 +239,6 @@ class BookStoreEditBook(generics.UpdateAPIView):
                 return Response('not right user')
         except:
             return Response('Invalid token')
-
 
 
 # HANDLE LIKES
@@ -261,14 +261,8 @@ class GetLikedBookView(generics.RetrieveAPIView):
         return Response(serializer_data, status=status.HTTP_200_OK)
 
 
-
-
-
-
-
 class LikeBookView(generics.GenericAPIView):
     serializer_class = BookStoreLikeSerializer
-
 
     def post(self, request, *args, **kwargs):
         book_id = self.kwargs.get('pk')
@@ -282,8 +276,6 @@ class LikeBookView(generics.GenericAPIView):
                 return Response({"detail": "You have already liked this book."}, status=400)
             serializer = self.get_serializer(data={'book':book_id, 'profile': user_profile.id})
             serializer.is_valid(raise_exception=True)
-
-           
             serializer.save()
             book.likes += 1
             book.save()
@@ -292,7 +284,7 @@ class LikeBookView(generics.GenericAPIView):
         except:
             return Response('invalid token')
 
-    def delete(self,request, *args, **kwargs):
+    def delete(self, request, *args, **kwargs):
         book_id = self.kwargs.get('pk')
         book = BookStore.objects.get(pk=book_id)
         token = get_token_from_request(self.request)
