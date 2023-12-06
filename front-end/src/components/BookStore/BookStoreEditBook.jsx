@@ -2,17 +2,21 @@ import styles from "./BookStoreEditBook.module.css";
 import { useState } from "react";
 import { useUser } from "../UserContext";
 
-export default function BookStoreEditBook({ editBook, book, updatePage }) {
-  const BASE_URL = `http://localhost:8000/api/book-store/edit/${book.id}/`;
-  const { user, token } = useUser();
+export default function BookStoreEditBook({EditBookShowHideForm, currentBook, PageRender,}) {
+  const BASE_URL = `http://localhost:8000/api/book-store/edit/${currentBook.id}/`;
+  const { token } = useUser();
   const [formData, setFormData] = useState({
-    title: book.title,
-    author: book.author,
-    description: book.secription,
-    price: book.price,
-    cover: book.cover,
+    title: currentBook.title,
+    author: currentBook.author,
+    description: currentBook.secription,
+    price: currentBook.price,
+    cover: currentBook.cover,
     owner: token.uid,
   });
+
+  function formChangeHandler(e) {
+    setFormData((oldData) => ({ ...oldData, [e.target.name]: e.target.value }));
+  }
 
   function submitHandler() {
     const request = {
@@ -28,21 +32,22 @@ export default function BookStoreEditBook({ editBook, book, updatePage }) {
         response.json();
       })
       .then(() => {
-        updatePage();
-        editBook();
+        PageRender();
+        EditBookShowHideForm();
       })
       .catch((err) => console.log(err));
   }
 
-  function formChangeHandler(e) {
-    setFormData((oldData) => ({ ...oldData, [e.target.name]: e.target.value }));
-  }
+
   return (
     <>
-      <div className="overlay" onClick={editBook}></div>
+      <div className="overlay" onClick={EditBookShowHideForm}></div>
       <div className="modular">
         <section className="form-edit-profile">
-          <button className="button-close-edit-profile" onClick={editBook}>
+          <button
+            className="button-close-edit-profile"
+            onClick={EditBookShowHideForm}
+          >
             x
           </button>
           <h1>Edit your listing:</h1>

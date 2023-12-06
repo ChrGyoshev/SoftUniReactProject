@@ -1,12 +1,7 @@
 import styles from "./BookStoreDeleteBook.module.css";
-import { Link } from "react-router-dom";
 import { useUser } from "../UserContext";
 
-export default function BookStoreDeleteBook({
-  showDeleteBox,
-  bookId,
-  PageRender,
-}) {
+export default function BookStoreDeleteBook({ showDeleteBox, bookId, PageRender,}) {
   const BASE_URL = `http://localhost:8000/api/book-store/delete/${bookId}/`;
   const { token } = useUser();
 

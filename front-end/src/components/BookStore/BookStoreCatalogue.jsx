@@ -6,19 +6,21 @@ import AddBookStore from "./AddBook";
 import BookStoreSingleBookElement from "./BookStoreElement";
 import useClickOutside from "../hooks/useClickOutside";
 import BookStoreEditBook from "./BookStoreEditBook";
+import ErrorBox from "../ErrorsBox";
 
 export default function BookStoreCatalogue() {
   const BASEURL = `http://localhost:8000/api/book-store/catalogue/`;
+  const { user } = useUser();
   const { page } = useParams();
   const [bookData, setBookData] = useState("");
   const [currentBook, setCurrentBook] = useState("");
-  const [showForm, setShowForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(parseInt(page));
+  const [addBookModular, setAddBookModular] = useState(false);
   const [editBookModular, setEditBookModular] = useState(false);
   const [errors, setErrors] = useState([]);
   const errorBoxRef = useRef();
   const pageContent = useRef();
-  const [currentPage, setCurrentPage] = useState(parseInt(page));
-  const { user } = useUser();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function BookStoreCatalogue() {
       if (response.ok) {
         setBookData(data);
         if (!fromPageRender) {
-          showFormHandler();
+          AddBookShowHideForm();
         }
       } else {
         console.log("Error fetching datass:", data.detail);
@@ -49,16 +51,16 @@ export default function BookStoreCatalogue() {
     }
   };
 
-  function showFormHandler(e) {
+  function AddBookShowHideForm(e) {
     if (e) {
       e.preventDefault();
     }
-    setShowForm(!showForm);
+    setAddBookModular(!addBookModular);
     pageContent.current.style.display =
       pageContent.current.style.display === "none" ? "flex" : "none";
   }
 
-  function EditBookHandler(book) {
+  function EditBookShowHideForm(book) {
     setEditBookModular(!editBookModular);
     setCurrentBook(book);
     pageContent.current.style.display =
@@ -84,48 +86,29 @@ export default function BookStoreCatalogue() {
   return (
     <>
       {errors.length > 0 && (
-        <div className="overlay-errors">
-          <div className="error-box" ref={errorBoxRef}>
-            <button className="button-close-edit-profile" onClick={resetErrors}>
-              x
-            </button>
-            <h2>Something went wrong</h2>
-            <ul>
-              {errors.map((error, index) => (
-                <li key={index}>
-                  {" "}
-                  <i className="fa-solid fa-triangle-exclamation"></i>
-                  {error}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
       )}
+
       {user && (
-        <button className={styles.AddBookStore} onClick={showFormHandler}>
+        <button className={styles.AddBookStore} onClick={AddBookShowHideForm}>
           Add Book
         </button>
       )}
-      {showForm && (
-        <AddBookStore
-          showForm={showFormHandler}
-          user={user}
-          updatePage={fetchUpdatedData}
+
+      {addBookModular && (
+        <AddBookStore {...{ AddBookShowHideForm, user, fetchUpdatedData }} 
         />
       )}
 
       {editBookModular && (
         <BookStoreEditBook
-          editBook={EditBookHandler}
-          book={currentBook}
-          updatePage={PageRender}
+          {...{ EditBookShowHideForm, currentBook, PageRender }}
         />
       )}
 
       <div className={styles.galleryInner} ref={pageContent}>
         <BookStoreSingleBookElement
-          {...{ bookData, user, EditBookHandler, PageRender }}
+          {...{bookData, user, EditBookShowHideForm, PageRender,}}
         />
       </div>
       {bookData.count > 6 && (

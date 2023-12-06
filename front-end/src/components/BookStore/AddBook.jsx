@@ -3,7 +3,7 @@ import { useUser } from "../UserContext";
 import useClickOutside from "../hooks/useClickOutside";
 import ErrorBox from "../ErrorsBox";
 
-export default function AddBookStore({ showForm, user, updatePage }) {
+export default function AddBookStore({AddBookShowHideForm, user, fetchUpdatedData, }) {
   const { token } = useUser();
   const BASE_URL = `http://localhost:8000/api/book-store/list/`;
   const [errors, setErrors] = useState([]);
@@ -26,7 +26,7 @@ export default function AddBookStore({ showForm, user, updatePage }) {
 
   function submitHandler(e) {
     e.preventDefault();
-    
+
     const request = {
       method: "POST",
       headers: {
@@ -49,7 +49,7 @@ export default function AddBookStore({ showForm, user, updatePage }) {
         }
         return response.json();
       })
-      .then((data) => updatePage())
+      .then(() => fetchUpdatedData())
       .catch((error) => console.error(error));
   }
 
@@ -64,10 +64,13 @@ export default function AddBookStore({ showForm, user, updatePage }) {
       {errors.length > 0 && (
         <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
       )}
-      <div className="overlay" onClick={showForm}></div>
+      <div className="overlay" onClick={AddBookShowHideForm}></div>
       <div className="modular">
         <section className="form-edit-profile">
-          <button className="button-close-edit-profile" onClick={showForm}>
+          <button
+            className="button-close-edit-profile"
+            onClick={AddBookShowHideForm}
+          >
             x
           </button>
           <h1>Add Book for Sale</h1>
@@ -129,7 +132,11 @@ export default function AddBookStore({ showForm, user, updatePage }) {
               >
                 Add Book
               </button>
-              <button type="button" className="submit-book" onClick={showForm}>
+              <button
+                type="button"
+                className="submit-book"
+                onClick={AddBookShowHideForm}
+              >
                 Cancel
               </button>
             </div>

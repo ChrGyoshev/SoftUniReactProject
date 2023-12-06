@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./BookStoreElementDetails.module.css";
 import { useEffect, useState } from "react";
 import { useUser } from "../UserContext";
@@ -46,9 +46,10 @@ const ElementDetails = () => {
       .catch((error) => console.log(error));
   }, []);
 
+  
   const toggleLike = (e) => {
     e.preventDefault();
-    // const btn = e.target.textContent.slice(0, -1);
+   
 
     fetch(LIKE_URL, {
       method: isLiked ? "DELETE" : "POST",

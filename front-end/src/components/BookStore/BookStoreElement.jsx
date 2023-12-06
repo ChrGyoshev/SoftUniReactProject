@@ -2,16 +2,10 @@ import { Link } from "react-router-dom";
 import styles from "./BookStoreCatalogue.module.css";
 import { useState, useRef } from "react";
 import BookStoreDeleteBook from "./BookStoreDeleteBook";
-import BookStoreEditBook from "./BookStoreEditBook";
 
-export default function BookStoreSingleBookElement({
-  bookData,
-  user,
-  EditBookHandler,
-  PageRender,
-}) {
+
+export default function BookStoreSingleBookElement({bookData, user, EditBookShowHideForm, PageRender, }) {
   const [deleteBook, setDeleteBook] = useState(false);
-  const [editBook, setEditBook] = useState(false);
   const [bookId, setBookId] = useState();
   const gallerySection = useRef();
 
@@ -31,20 +25,13 @@ export default function BookStoreSingleBookElement({
   return (
     <>
       <div className={styles.gallery} ref={gallerySection}>
-        {editBook && (
-          <BookStoreEditBook
-            showEditBox={showEditBox}
-            bookId={bookId}
-            PageRender={PageRender}
-          />
-        )}
         {Object.values(books).map((book) => (
           <div className={styles.content} key={book.id}>
             {user && book.owner.id === user.uid && (
               <div className={styles.bookStoreBtns}>
                 <i
                   className="fa-solid fa-pen-to-square bookEditBtn"
-                  onClick={() => EditBookHandler(book)}
+                  onClick={() => EditBookShowHideForm(book)}
                 ></i>
 
                 <i
@@ -73,11 +60,7 @@ export default function BookStoreSingleBookElement({
           </div>
         ))}
         {deleteBook && (
-          <BookStoreDeleteBook
-            showDeleteBox={showDeleteBox}
-            bookId={bookId}
-            PageRender={PageRender}
-          />
+          <BookStoreDeleteBook {...{ showDeleteBox, bookId, PageRender }} />
         )}
       </div>
     </>
