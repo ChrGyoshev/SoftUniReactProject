@@ -16,20 +16,22 @@ const BookList = () => {
   const bookBtns = useRef();
 
   useEffect(() => {
-    const BASEURL = `http://localhost:8000/api/books-by-user?profile=${user.uid}`;
-    fetch(BASEURL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setBooks(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (user) {
+      const BASEURL = `http://localhost:8000/api/books-by-user?profile=${user.uid}`;
+      fetch(BASEURL)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setBooks(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, [user]);
 
   useEffect(() => {
@@ -76,12 +78,10 @@ const BookList = () => {
       .catch((error) => console.error(error));
   }
 
-
   function UpdateBooks(newBooks) {
     setBooks((oldData) => [...oldData, newBooks]);
   }
 
-  
   function selectChangeHandler(e, bookId) {
     const newStatus = e.target.value;
 

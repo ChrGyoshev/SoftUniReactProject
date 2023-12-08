@@ -115,7 +115,7 @@ class BookStore(models.Model):
     )
 
     cover = models.URLField(
-        max_length=500,
+        max_length=1200,
     )
 
     likes = models.PositiveIntegerField(

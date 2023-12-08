@@ -3,7 +3,11 @@ import { useUser } from "../UserContext";
 import useClickOutside from "../hooks/useClickOutside";
 import ErrorBox from "../ErrorsBox";
 
-export default function AddBookStore({AddBookShowHideForm, user, fetchUpdatedData, }) {
+export default function AddBookStore({
+  AddBookShowHideForm,
+  user,
+  fetchUpdatedData,
+}) {
   const { token } = useUser();
   const BASE_URL = `http://localhost:8000/api/book-store/list/`;
   const [errors, setErrors] = useState([]);
@@ -97,6 +101,7 @@ export default function AddBookStore({AddBookShowHideForm, user, fetchUpdatedDat
             <label htmlFor="description">Description:</label>
             <input
               type="text"
+              maxLength="1200"
               id="description"
               name="description"
               placeholder="Enter book description"

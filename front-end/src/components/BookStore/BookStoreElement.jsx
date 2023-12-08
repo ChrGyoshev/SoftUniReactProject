@@ -3,8 +3,12 @@ import styles from "./BookStoreCatalogue.module.css";
 import { useState, useRef } from "react";
 import BookStoreDeleteBook from "./BookStoreDeleteBook";
 
-
-export default function BookStoreSingleBookElement({bookData, user, EditBookShowHideForm, PageRender, }) {
+export default function BookStoreSingleBookElement({
+  bookData,
+  user,
+  EditBookShowHideForm,
+  PageRender,
+}) {
   const [deleteBook, setDeleteBook] = useState(false);
   const [bookId, setBookId] = useState();
   const gallerySection = useRef();
@@ -47,7 +51,7 @@ export default function BookStoreSingleBookElement({bookData, user, EditBookShow
               >
                 <img src={book.cover} alt="" />
                 <h3>{book.title}</h3>
-                <h6>{book.price}$</h6>
+                <h6>{book.price} лв</h6>
                 <p>{book.author}</p>
                 {book.owner.email && <p>Seller: {book.owner.email}</p>}
               </Link>

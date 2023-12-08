@@ -2,13 +2,17 @@ import styles from "./BookStoreEditBook.module.css";
 import { useState } from "react";
 import { useUser } from "../UserContext";
 
-export default function BookStoreEditBook({EditBookShowHideForm, currentBook, PageRender,}) {
+export default function BookStoreEditBook({
+  EditBookShowHideForm,
+  currentBook,
+  PageRender,
+}) {
   const BASE_URL = `http://localhost:8000/api/book-store/edit/${currentBook.id}/`;
   const { token } = useUser();
   const [formData, setFormData] = useState({
     title: currentBook.title,
     author: currentBook.author,
-    description: currentBook.secription,
+    description: currentBook.description,
     price: currentBook.price,
     cover: currentBook.cover,
     owner: token.uid,
@@ -37,7 +41,6 @@ export default function BookStoreEditBook({EditBookShowHideForm, currentBook, Pa
       })
       .catch((err) => console.log(err));
   }
-
 
   return (
     <>

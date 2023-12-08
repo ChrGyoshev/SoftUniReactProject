@@ -46,10 +46,8 @@ const ElementDetails = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  
   const toggleLike = (e) => {
     e.preventDefault();
-   
 
     fetch(LIKE_URL, {
       method: isLiked ? "DELETE" : "POST",
