@@ -5,7 +5,7 @@ import { useUser } from "../UserContext";
 
 const ElementDetails = () => {
   const { id } = useParams();
-  const { token } = useUser();
+  const { user, token } = useUser();
   const [bookData, setBookData] = useState("");
   const BASE_URL = `http://localhost:8000/api/book-store/${id}/`;
   const LIKE_URL = `http://localhost:8000/api/book-store/like/${id}/`;
@@ -49,27 +49,29 @@ const ElementDetails = () => {
   const toggleLike = (e) => {
     e.preventDefault();
 
-    fetch(LIKE_URL, {
-      method: isLiked ? "DELETE" : "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Request failed: ${response.message}`);
-        }
+    if (user) {
+      fetch(LIKE_URL, {
+        method: isLiked ? "DELETE" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Request failed: ${response.message}`);
+          }
 
-        return response.json();
-      })
-      .then(() => {
-        setIsLiked(!isLiked);
-        setTotalLikes((prevTotalLikes) =>
-          isLiked ? prevTotalLikes - 1 : prevTotalLikes + 1
-        );
-      })
-      .catch((error) => console.log(error));
+          return response.json();
+        })
+        .then(() => {
+          setIsLiked(!isLiked);
+          setTotalLikes((prevTotalLikes) =>
+            isLiked ? prevTotalLikes - 1 : prevTotalLikes + 1
+          );
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
   return (

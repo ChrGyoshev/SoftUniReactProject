@@ -1,8 +1,8 @@
 
 import firebase_admin
-from django.db import transaction
-from django.shortcuts import get_object_or_404
-from rest_framework import status, generics, request, serializers
+from django.forms import renderers
+
+from rest_framework import status, generics, serializers
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,7 +19,9 @@ firebase_app = firebase_admin.initialize_app(firebase_credentials)
 
 
 class ProfileApiView(APIView):
+    # renderer_classes = [renderers.JSONRenderer]
     def get(self, request, *args, **kwargs):
+
         profiles = Profile.objects.all()
         serializer = ProfileSerializer(profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -18,7 +18,7 @@ export function HideNavBar() {
   } else {
     Menu.classList.add("hover");
 
-    // Set initial styles here
+
     rect1.style.opacity = 0;
     rect2.style.transform = "rotate(45deg) translate(6px, -15px)";
     rect3.style.transform = "rotate(-45deg) translate(-20px, 0px)";
