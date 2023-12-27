@@ -73,7 +73,7 @@ function SignIn() {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
         navigate("/");
-        const url = "http://127.0.0.1:8000/api";
+        const url = "https://react-app-book-buzz.onrender.com/api";
         const userData = {
           uid: result.user.uid,
           email: result.user.email,

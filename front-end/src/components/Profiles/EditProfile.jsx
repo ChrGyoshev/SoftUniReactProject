@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useUser } from "./../UserContext";
 
-const EditProfile = ({ShowEditProfileModular, handleFormSubmit, profile,handleErrors,}) => {
+const EditProfile = ({
+  ShowEditProfileModular,
+  handleFormSubmit,
+  profile,
+  handleErrors,
+}) => {
   const { user, token } = useUser();
   const [formData, setFormData] = useState({
     username: profile.username ?? "",
@@ -10,7 +15,7 @@ const EditProfile = ({ShowEditProfileModular, handleFormSubmit, profile,handleEr
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const BaseUrl = `http://127.0.0.1:8000/api/edit/${user.uid}/`;
+  const BaseUrl = `https://react-app-book-buzz.onrender.com/api/edit/${user.uid}/`;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +25,7 @@ const EditProfile = ({ShowEditProfileModular, handleFormSubmit, profile,handleEr
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const filePath = `http://localhost:8000/media/profile-picture/${file.name}`;
+      const filePath = `https://react-app-book-buzz.onrender.com/media/profile-picture/${file.name}`;
       setFormData({ ...formData, profile_picture: filePath });
       setSelectedFile(file);
     }

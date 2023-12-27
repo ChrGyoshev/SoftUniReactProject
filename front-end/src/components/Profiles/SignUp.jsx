@@ -27,7 +27,8 @@ const SignUp = () => {
 
   const Submitting = async (e) => {
     e.preventDefault();
-    const url = "http://127.0.0.1:8000/api";
+
+    const url = "https://react-app-book-buzz.onrender.com/api";
 
     if (formData.password === formData.confirmPassword) {
       try {

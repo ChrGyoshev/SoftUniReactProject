@@ -25,10 +25,11 @@ SECRET_KEY = 'django-insecure-2=4m4p*&(4l(%zr9=$7prms6#mw^%(614jfj792j*g=7$0&dl%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://react-app-book-buzz.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'react-app-book-buzz.onrender.com']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Add the origin of your React app
+    "http://localhost:3000",
+    "https://book-buzz-front-end.web.app/", # Add the origin of your React app
 ]
 
 

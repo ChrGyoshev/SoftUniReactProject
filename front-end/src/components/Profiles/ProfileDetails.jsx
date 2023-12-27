@@ -13,7 +13,6 @@ const ProfileDetails = () => {
   const [errors, setErrors] = useState([]);
   const errorBoxRef = useRef();
 
-  
   useEffect(() => {
     if (auth.currentUser !== null) {
       setUser(auth.currentUser);
@@ -23,7 +22,7 @@ const ProfileDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user && user.uid) {
-        const urlView = `http://localhost:8000/api/${user.uid}`;
+        const urlView = `https://react-app-book-buzz.onrender.com/api/${user.uid}`;
         try {
           const response = await fetch(urlView, {
             method: "GET",
@@ -46,7 +45,6 @@ const ProfileDetails = () => {
     fetchData();
   }, [user]);
 
-  
   function handleErrors(error) {
     setErrors(error);
   }

@@ -9,7 +9,9 @@ const DeleteProfile = () => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    setBaseUrl(`http://127.0.0.1:8000/api/delete/${user.uid}/`);
+    setBaseUrl(
+      `https://react-app-book-buzz.onrender.com/api/delete/${user.uid}/`
+    );
   }, []);
 
   async function deleteHandler() {
