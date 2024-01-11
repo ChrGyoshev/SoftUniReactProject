@@ -5,6 +5,8 @@ import EditProfile from "./EditProfile";
 import ErrorBox from "../ErrorsBox";
 import useClickOutside from "../hooks/useClickOutside";
 
+import LoadingSpinner from "./spinner";
+
 const ProfileDetails = () => {
   const [user, setUser] = useState("");
   const [profile, setProfile] = useState("");
@@ -12,6 +14,8 @@ const ProfileDetails = () => {
   const ProfileCard = useRef(null);
   const [errors, setErrors] = useState([]);
   const errorBoxRef = useRef();
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (auth.currentUser !== null) {
@@ -36,6 +40,7 @@ const ProfileDetails = () => {
           }
           const data = await response.json();
           setProfile(data);
+          setLoading(false);
         } catch (error) {
           console.error(error);
         }
@@ -94,38 +99,47 @@ const ProfileDetails = () => {
         <span className="edit-profile" onClick={ShowEditProfileModular}>
           <i className="fa-solid fa-user-pen"></i>
         </span>
-        <div className="profile-image">
-          {profile.profile_picture ? (
-            <img
-              referrerPolicy="no-referrer"
-              src={`${profile.profile_picture}?t=${Date.now()}`}
-              alt="User Profile"
-            />
-          ) : user.photoURL ? (
-            <img
-              src={user.photoURL}
-              alt="User Profile"
-              referrerPolicy="no-referrer"
-            />
-          ) : (
-            <img
-              src="https://nationwide-energy.co.uk/wp-content/uploads/2017/07/blank-avatar.jpg"
-              alt="User Profile"
-            />
-          )}
-        </div>
-        <div className="text-data">
-          <p className="email">Email: {user.email}</p>
-          {profile.username && (
-            <p className="username">Username: {profile.username}</p>
-          )}
 
-          {profile.phone_number && (
-            <p className="phone_number"> Phone: {profile.phone_number}</p>
-          )}
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="user-data">
+            <div className="profile-image">
+              {profile.profile_picture ? (
+                <img
+                  referrerPolicy="no-referrer"
+                  src={`${profile.profile_picture}?t=${Date.now()}`}
+                  alt="User Profile"
+                />
+              ) : user.photoURL ? (
+                <img
+                  src={user.photoURL}
+                  alt="User Profile"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <img
+                  src="https://nationwide-energy.co.uk/wp-content/uploads/2017/07/blank-avatar.jpg"
+                  alt="User Profile"
+                />
+              )}
+            </div>
+            <div className="text-data">
+              <p className="email">Email: {user.email}</p>
+              {profile.username && (
+                <p className="username">Username: {profile.username}</p>
+              )}
 
-          {profile.gender && <p className="gender">Gender: {profile.gender}</p>}
-        </div>
+              {profile.phone_number && (
+                <p className="phone_number"> Phone: {profile.phone_number}</p>
+              )}
+
+              {profile.gender && (
+                <p className="gender">Gender: {profile.gender}</p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

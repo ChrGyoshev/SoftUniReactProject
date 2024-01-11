@@ -1,6 +1,6 @@
 import Spinner from "react-bootstrap/Spinner";
 
-function BasicExample() {
+function LoadingSpinner() {
   return (
     <Spinner animation="border" role="status" className="spinner">
       <span className="visually-hidden">Loading...</span>
@@ -8,4 +8,4 @@ function BasicExample() {
   );
 }
 
-export default BasicExample;
+export default LoadingSpinner;
