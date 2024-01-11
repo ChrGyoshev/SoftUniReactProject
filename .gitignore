@@ -36,3 +36,8 @@ venv/
 *.dockerignore
 Dockerfile.backend
 Dockerfile.frontend
+
+dist
+.firebase/
+**/.firebase
+**/.firebaserc
