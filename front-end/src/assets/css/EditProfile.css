@@ -105,7 +105,7 @@
 .form-edit-profile form {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 17px;
   margin: 10px;
   gap: 10px;
 }
@@ -113,7 +113,7 @@
 .form-edit-profile form input {
   height: 20px;
   width: 20em;
-  padding: 8px 12px;
+  padding: 17px 12px;
   border-radius: 5px;
   margin-bottom: 5px;
   
@@ -135,6 +135,7 @@
 
 .form-edit-profile .upload-file {
   background-color: white;
+  padding-bottom: 28px;
 }
 
 /* file upload button */

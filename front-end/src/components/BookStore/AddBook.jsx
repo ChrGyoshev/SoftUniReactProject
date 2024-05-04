@@ -9,7 +9,8 @@ export default function AddBookStore({
   fetchUpdatedData,
 }) {
   const { token } = useUser();
-  const BASE_URL = `http://localhost:8000/api/book-store/list/`;
+  const BASE_URL = `https://react-app-book-buzz.onrender.com/api/book-store/list/`;
+
   const [errors, setErrors] = useState([]);
   const errorBoxRef = useRef();
   const [formData, setFormData] = useState({
