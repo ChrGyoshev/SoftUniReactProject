@@ -10,6 +10,7 @@ export default function BuyBook() {
   const BASE_URL = `http://localhost:8000/api/book-store/buy/${id}/`;
   const [isBuyed, setIsBuyed] = useState(false);
   const navigate = useNavigate();
+  
 
   function buyHandler(e) {
     e.preventDefault();

@@ -219,3 +219,9 @@
     font-size: 1em;
 }
 
+
+.spinner {
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}

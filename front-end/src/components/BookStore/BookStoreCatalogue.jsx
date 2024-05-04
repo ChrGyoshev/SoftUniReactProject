@@ -7,9 +7,10 @@ import BookStoreSingleBookElement from "./BookStoreElement";
 import useClickOutside from "../hooks/useClickOutside";
 import BookStoreEditBook from "./BookStoreEditBook";
 import ErrorBox from "../ErrorsBox";
+import LoadingSpinner from "../Profiles/spinner";
 
 export default function BookStoreCatalogue() {
-  const BASEURL = `http://localhost:8000/api/book-store/catalogue/`;
+  const BASEURL = `https://react-app-book-buzz.onrender.com/api/book-store/catalogue/`;
   const { user } = useUser();
   const { page } = useParams();
   const [bookData, setBookData] = useState("");
@@ -23,10 +24,15 @@ export default function BookStoreCatalogue() {
 
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetch(`${BASEURL}?page=${currentPage}`)
       .then((response) => response.json())
-      .then((data) => setBookData(data))
+      .then((data) => {
+        setBookData(data);
+        setLoading(false);
+      })
       .catch((error) => console.error(error));
   }, [currentPage]);
 
@@ -85,48 +91,60 @@ export default function BookStoreCatalogue() {
 
   return (
     <>
-      {errors.length > 0 && (
-        <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
-      )}
-
-      {user && (
-        <button className={styles.AddBookStore} onClick={AddBookShowHideForm}>
-          Add Book
-        </button>
-      )}
-
-      {addBookModular && (
-        <AddBookStore {...{ AddBookShowHideForm, user, fetchUpdatedData }} 
-        />
-      )}
-
-      {editBookModular && (
-        <BookStoreEditBook
-          {...{ EditBookShowHideForm, currentBook, PageRender }}
-        />
-      )}
-
-      <div className={styles.galleryInner} ref={pageContent}>
-        <BookStoreSingleBookElement
-          {...{bookData, user, EditBookShowHideForm, PageRender,}}
-        />
-      </div>
-      {bookData.count > 6 && (
-        <div className={styles.paginator}>
-          <button
-            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
-            disabled={!bookData.previous}
-          >
-            Previous
-          </button>
-
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={!bookData.next}
-          >
-            Next
-          </button>
+      {loading ? (
+        <div className="spinner">
+          <LoadingSpinner />
         </div>
+      ) : (
+        <>
+          {errors.length > 0 && (
+            <ErrorBox {...{ resetErrors, errors, errorBoxRef }} />
+          )}
+
+          {user && (
+            <button
+              className={styles.AddBookStore}
+              onClick={AddBookShowHideForm}
+            >
+              Add Book
+            </button>
+          )}
+
+          {addBookModular && (
+            <AddBookStore
+              {...{ AddBookShowHideForm, user, fetchUpdatedData }}
+            />
+          )}
+
+          {editBookModular && (
+            <BookStoreEditBook
+              {...{ EditBookShowHideForm, currentBook, PageRender }}
+            />
+          )}
+
+          <div className={styles.galleryInner} ref={pageContent}>
+            <BookStoreSingleBookElement
+              {...{ bookData, user, EditBookShowHideForm, PageRender }}
+            />
+          </div>
+          {bookData.count > 6 && (
+            <div className={styles.paginator}>
+              <button
+                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+                disabled={!bookData.previous}
+              >
+                Previous
+              </button>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={!bookData.next}
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       )}
     </>
   );
