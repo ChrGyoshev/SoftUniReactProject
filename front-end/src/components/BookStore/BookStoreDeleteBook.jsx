@@ -1,8 +1,14 @@
 import styles from "./BookStoreDeleteBook.module.css";
 import { useUser } from "../UserContext";
+import { useState } from "react";
+import LoadingSpinner from "../Profiles/spinner";
 
-export default function BookStoreDeleteBook({ showDeleteBox, bookId, PageRender,}) {
-  const BASE_URL = `http://localhost:8000/api/book-store/delete/${bookId}/`;
+export default function BookStoreDeleteBook({
+  showDeleteBox,
+  bookId,
+  PageRender,
+}) {
+  const BASE_URL = `https://react-app-book-buzz.onrender.com/api/book-store/delete/${bookId}/`;
   const { token } = useUser();
 
   function DeleteBookHandler(e) {

@@ -37,11 +37,13 @@ export default function BookStoreCatalogue() {
   }, [currentPage]);
 
   const fetchUpdatedData = async (fromPageRender) => {
+    setLoading(true);
     try {
       const response = await fetch(`${BASEURL}?page=${currentPage}`);
       const data = await response.json();
       if (response.ok) {
         setBookData(data);
+        setLoading(false);
         if (!fromPageRender) {
           AddBookShowHideForm();
         }
